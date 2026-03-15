@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation, Entrepreneurship & Business Models - Exam Dashboard</title>
+    <style>
+        :root {
+            --color-primary: #3b82f6;
+            --color-primary-hover: #2563eb;
+            --color-primary-light: #dbeafe;
+            --color-bg: #fafbfc;
+            --color-surface: #ffffff;
+            --color-text: #0f172a;
+            --color-text-secondary: #64748b;
+            --color-border: #e2e8f0;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-bar {
+            background: var(--color-surface);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px var(--color-primary-light);
+            transform: translateY(-1px);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.75rem;
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--color-border);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-theory { background: #dbeafe; color: #1e40af; }
+        .badge-practice { background: #fef3c7; color: #92400e; }
+        .badge-tools { background: #d1fae5; color: #065f46; }
+        .badge-critical { background: #fee2e2; color: #991b1b; }
+
+        .card-content {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .card-content ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .card-content li {
+            margin: 0.5rem 0;
+        }
+
+        .key-point {
+            background: #f8fafc;
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.25rem 0;
+            border-left: 4px solid var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .key-point strong {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--color-border);
+        }
+        
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+        
+        .modal-content h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .modal-content p,
+        .modal-content li {
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        
+        .modal-content strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+        
+        .modal-content ul,
+        .modal-content ol {
+            margin: 1rem 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--color-surface);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+                max-width: 95vw;
+            }
+            
+            .modal-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content p,
+            .modal-content li {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Innovation, Entrepreneurship &amp; Business Models</h1>
+        <p>Comprehensive Exam Preparation Dashboard</p>
+        <div style="margin-top: 1rem;">
+            <a href="https://github.com/yourusername/ieb-exam-dashboard" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 12px; color: white; text-decoration: none; font-weight: 600; transition: all 0.3s ease; backdrop-filter: blur(10px);">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                View on GitHub
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTopics">58</div>
+                <div class="stat-label">Key Topics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Lectures</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">ECTS Credits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1.5h</div>
+                <div class="stat-label">Exam Duration</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search topics, theories, frameworks, or concepts...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-category="all">All Topics</button>
+            <button class="tab-btn" data-category="innovation">Innovation</button>
+            <button class="tab-btn" data-category="entrepreneurship">Entrepreneurship</button>
+            <button class="tab-btn" data-category="business-models">Business Models</button>
+            <button class="tab-btn" data-category="frameworks">Frameworks &amp; Tools</button>
+            <button class="tab-btn" data-category="critical">Critical Theories</button>
+        </div>
+
+        <div class="content-grid" id="contentGrid"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const topics = [
+            {
+                id: 1,
+                title: "Types of Innovation (Oslo Manual)",
+                category: "innovation",
+                badge: "theory",
+                summary: "Four main types of innovation according to Oslo Manual 2018",
+                details: `
+                    <h2>Four Types of Innovation (Oslo Manual 2018)</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/fc456009-5ea1-4195-9ead-c1ca8bfc9980.png" alt="Oslo Manual Four Types of Innovation" style="width: 100%; max-width: 600px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    <div class="key-point">
+                        <strong>1. Product Innovation</strong>
+                        <p>Introduction of a new or significantly improved good or service with respect to characteristics or intended uses.</p>
+                        <ul>
+                            <li>Includes significant improvements in technical specifications, components, materials, software</li>
+                            <li>Example: First smartphone with touchscreen</li>
+                        </ul>
+                    </div>
+                    <div class="key-point">
+                        <strong>2. Process Innovation</strong>
+                        <p>Implementation of a new or significantly improved production or delivery method.</p>
+                        <ul>
+                            <li>Includes significant changes in techniques, equipment, software</li>
+                            <li>Example: Toyota's lean manufacturing</li>
+                        </ul>
+                    </div>
+                    <div class="key-point">
+                        <strong>3. Marketing Innovation</strong>
+                        <p>Implementation of a new marketing method involving significant changes in product design, packaging, placement, promotion or pricing.</p>
+                        <ul>
+                            <li>Aimed at better addressing customer needs, opening new markets</li>
+                            <li>Example: Coca-Cola's distinctive bottle design</li>
+                        </ul>
+                    </div>
+                    <div class="key-point">
+                        <strong>4. Organizational Innovation</strong>
+                        <p>Implementation of a new organizational method in business practices, workplace organization or external relations.</p>
+                        <ul>
+                            <li>Includes knowledge management systems, supply chain management</li>
+                            <li>Example: Google's 20% time policy</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship-and-innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 1 (pp. 15-18)</li>
+                            <li><strong>Source:</strong> <a href="#" onclick="downloadFile('file:5', 'Oslo-manual.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Oslo Manual 2018</a> (pp. 44-68)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:3', 'IEB-1-cro-2026_moodle.pptx'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 8-15)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "Causation vs. Effectuation",
+                category: "entrepreneurship",
+                badge: "critical",
+                summary: "Two distinct approaches to entrepreneurial decision-making",
+                details: `
+                    <h2>Causation vs. Effectuation</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/db91eb27-8570-4fb7-8a0a-2031487bc0f5.png" alt="Causation vs Effectuation" style="width: 100%; max-width: 600px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    <div class="key-point">
+                        <strong>Causation Logic</strong>
+                        <ul>
+                            <li>Goal-driven: Start with predetermined goals</li>
+                            <li>Prediction-focused: Predict the future to control it</li>
+                            <li>Comprehensive planning before action</li>
+                            <li>Competitive analysis to maximize returns</li>
+                            <li>Suitable for: Existing markets, known environments</li>
+                        </ul>
+                    </div>
+                    <div class="key-point">
+                        <strong>Effectuation Logic (Sarasvathy)</strong>
+                        <ul>
+                            <li>Means-driven: Start with available means (who you are, what you know, whom you know)</li>
+                            <li>Control-focused: Control the future by creating it</li>
+                            <li>Affordable loss principle instead of expected returns</li>
+                            <li>Strategic partnerships over competitive analysis</li>
+                            <li>Suitable for: New markets, uncertain environments</li>
+                        </ul>
+                    </div>
+                    <div class="key-point">
+                        <strong>5 Effectuation Principles</strong>
+                        <ol>
+                            <li><strong>Bird-in-hand:</strong> Start with your means</li>
+                            <li><strong>Affordable loss:</strong> What can you afford to lose?</li>
+                            <li><strong>Crazy quilt:</strong> Build partnerships</li>
+                            <li><strong>Lemonade:</strong> Leverage surprises</li>
+                            <li><strong>Pilot-in-the-plane:</strong> Control vs. prediction</li>
+                        </ol>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship-and-innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 308-315)</li>
+                            <li><strong>Article:</strong> Sarasvathy (2001) - Effectuation theory</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:4', 'HA-4sem-2026-lecture-2-The-entrepreneur-stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 18-25)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Business Model Canvas",
+                category: "business-models",
+                badge: "tools",
+                summary: "9 building blocks for designing business models (Osterwalder & Pigneur)",
+                details: `
+                    <h2>Business Model Canvas (Osterwalder & Pigneur 2010)</h2>
+                    <p><strong>Purpose:</strong> Strategic tool to analyze, design and innovate business models</p>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/ffd82c61-511c-4f64-946a-12985fe001e8.png" alt="Business Model Canvas" style="width: 100%; max-width: 700px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>9 Building Blocks</strong>
+                        <ol>
+                            <li><strong>Customer Segments:</strong> Who are you serving? Different groups with distinct needs</li>
+                            <li><strong>Value Propositions:</strong> What value do you deliver? Solutions to customer problems</li>
+                            <li><strong>Channels:</strong> How do you reach customers? Distribution and communication channels</li>
+                            <li><strong>Customer Relationships:</strong> What relationships do you maintain? Personal, automated, self-service</li>
+                            <li><strong>Revenue Streams:</strong> How do you make money? Pricing mechanisms and payment flows</li>
+                            <li><strong>Key Resources:</strong> What assets are required? Physical, intellectual, human, financial</li>
+                            <li><strong>Key Activities:</strong> What do you do? Production, problem-solving, platform/network</li>
+                            <li><strong>Key Partnerships:</strong> Who are your partners? Suppliers, strategic alliances</li>
+                            <li><strong>Cost Structure:</strong> What are the costs? Fixed vs. variable, economies of scale</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>How to Use:</strong>
+                        <ul>
+                            <li>Start with blank canvas - brainstorm without restrictions</li>
+                            <li>Test assumptions through customer discovery</li>
+                            <li>Iterate based on feedback</li>
+                            <li>Use for existing business analysis or new venture design</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship-and-innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 321-328)</li>
+                            <li><strong>Source:</strong> Osterwalder & Pigneur (2010) - Business Model Generation</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:7', 'IEB-3-cro-2026-moodle.pptx'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 10-22)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "Lean Startup Methodology",
+                category: "entrepreneurship",
+                badge: "practice",
+                summary: "Build-Measure-Learn cycle for rapid innovation (Ries & Blank)",
+                details: `
+                    <h2>Lean Startup Methodology</h2>
+                    <p><strong>Key Principle:</strong> Minimize waste and maximize learning through validated learning</p>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/a573070e-4267-40c9-b18d-206264a21cf3.png" alt="Build-Measure-Learn Cycle" style="width: 100%; max-width: 500px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>5 Core Principles</strong>
+                        <ol>
+                            <li><strong>Entrepreneurs are everywhere:</strong> Not just tech startups</li>
+                            <li><strong>Entrepreneurship is management:</strong> Requires new management paradigm</li>
+                            <li><strong>Validated learning:</strong> Learn what customers want through experiments</li>
+                            <li><strong>Build-Measure-Learn:</strong> Transform ideas into products, measure response, learn</li>
+                            <li><strong>Innovation accounting:</strong> Measure progress, set milestones, prioritize</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Minimum Viable Product (MVP)</strong>
+                        <ul>
+                            <li>Smallest product version to test hypotheses</li>
+                            <li>Goal: Maximum learning with minimum effort</li>
+                            <li>Types: Landing pages, prototypes, concierge services</li>
+                            <li>Purpose: Test product-market fit, gather feedback</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Pivot vs. Persevere</strong>
+                        <ul>
+                            <li><strong>Pivot:</strong> Structured course correction to test new hypothesis</li>
+                            <li><strong>Persevere:</strong> Stay the course when metrics show progress</li>
+                            <li>Decision based on validated learning, not gut feeling</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Key Differences from Traditional Planning</strong>
+                        <ul>
+                            <li>Hypothesis-driven vs. plan-driven</li>
+                            <li>Fast iteration vs. long development cycles</li>
+                            <li>Customer feedback vs. market research</li>
+                            <li>Agile development vs. waterfall</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship-and-innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 315-321)</li>
+                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:8', 'blank-eckhardt-2023-the-lean-startup-as-an-actionable-theory-of-entrepreneurship.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Blank & Eckhardt (2023) - The Lean Startup as actionable theory</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:9', 'HA-4sem-2026-lecture-4-Entr-in-practice-Bus-Plans-stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 5-18)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Disruptive Innovation (Christensen)",
+                category: "innovation",
+                badge: "theory",
+                summary: "Theory of how new entrants displace established firms",
+                details: `
+                    <h2>Disruptive Innovation Theory (Clayton Christensen)</h2>
+                    
+                    <div class="key-point">
+                        <strong>Sustaining vs. Disruptive Innovation</strong>
+                        <ul>
+                            <li><strong>Sustaining:</strong> Improvements along established performance trajectories</li>
+                            <li><strong>Disruptive:</strong> Initially inferior but improves to eventually overtake incumbents</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Two Types of Disruption</strong>
+                        <ol>
+                            <li><strong>Low-end disruption:</strong> Target over-served customers with "good enough" solutions at lower prices</li>
+                            <li><strong>New-market disruption:</strong> Create new market by serving non-consumers</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Why Incumbents Fail</strong>
+                        <ul>
+                            <li>Listen to best customers who don't want disruptive products initially</li>
+                            <li>Rational decision-making leads to ignoring low-margin opportunities</li>
+                            <li>Existing value networks constrain response</li>
+                            <li>Focus on sustaining innovations for current customers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Examples</strong>
+                        <ul>
+                            <li>Netflix disrupting Blockbuster (streaming vs. rental stores)</li>
+                            <li>Digital cameras disrupting film</li>
+                            <li>Personal computers disrupting mainframes</li>
+                            <li>Online education disrupting traditional universities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Strategies for Incumbents</strong>
+                        <ul>
+                            <li>Create separate autonomous units</li>
+                            <li>Don't fight disruption with sustaining innovations</li>
+                            <li>Target new or low-end markets yourself</li>
+                            <li>Be willing to cannibalize existing business</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 9 (pp. 278-285)</li>
+                            <li><strong>Source:</strong> Christensen - The Innovator's Dilemma (1997)</li>
+                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 20-28)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "3M Analysis for Opportunity Screening",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Market, Money, Management framework for evaluating opportunities",
+                details: `
+                    <h2>3M Analysis Framework</h2>
+                    <p><strong>Purpose:</strong> Quick screening tool for new business opportunities</p>
+                    
+                    <div class="key-point">
+                        <strong>1. MARKET</strong>
+                        <ul>
+                            <li><strong>Customer Need:</strong> What problem does it solve? (Basic, Spoken, Unspoken needs)</li>
+                            <li><strong>Product/Service:</strong> Features and benefits that match needs</li>
+                            <li><strong>Market Size:</strong> TAM, SAM, SOM (Total/Serviceable/Obtainable Market)</li>
+                            <li><strong>Market Share:</strong> What share is realistically attainable?</li>
+                            <li><strong>Barriers to Entry:</strong> Economies of scale, switching costs, IP, capital requirements</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>2. MONEY</strong>
+                        <ul>
+                            <li><strong>Investment Requirement:</strong> How much capital needed?</li>
+                            <li><strong>VC Rule of Thumb:</strong> For every $1 technical development, need $8 more ($5 marketing, $3 legal/admin)</li>
+                            <li><strong>Fixed vs. Variable Costs:</strong> Minimize fixed costs in early stages</li>
+                            <li><strong>Gross Profit Margin:</strong> Key indicator - higher margins = faster to break-even</li>
+                            <li><strong>Break-Even:</strong> When does revenue = costs?</li>
+                            <li><strong>Cash Flow:</strong> How quickly do customers pay?</li>
+                            <li><strong>ROI/IRR:</strong> Expected returns for investors</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>3. MANAGEMENT</strong>
+                        <ul>
+                            <li><strong>Value-Adding Potential:</strong> Can you keep innovating?</li>
+                            <li><strong>Resource Control:</strong> Access to necessary IP, assets, skills</li>
+                            <li><strong>Timing:</strong> First-mover advantage? Time to market?</li>
+                            <li><strong>Room for Error:</strong> Risk assessment and contingency plans</li>
+                            <li><strong>Exit Strategy:</strong> How will investors/founders exit?</li>
+                            <li><strong>Team Quality:</strong> Complementary skills, track record</li>
+                            <li><strong>Fit:</strong> Compatibility between team members</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 305-308)</li>
+                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 12-17)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 5-9)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "Business Plan Components",
+                category: "entrepreneurship",
+                badge: "practice",
+                summary: "Essential sections and content for business planning",
+                details: `
+                    <h2>Business Plan Structure</h2>
+                    
+                    <div class="key-point">
+                        <strong>Key Sections (Haag 2013)</strong>
+                        <ol>
+                            <li><strong>Executive Summary:</strong> 2-3 pages, most important section, write last</li>
+                            <li><strong>Company Overview:</strong> Description, history, ownership, management</li>
+                            <li><strong>Product/Services:</strong> Features, benefits, IP rights</li>
+                            <li><strong>Market Opportunity:</strong> Size, growth, customer segments, TAM-SAM-SOM</li>
+                            <li><strong>Competition &amp; Threats:</strong> Competitor analysis, barriers, substitutes</li>
+                            <li><strong>Economics:</strong> KPIs, margins, break-even, cash flow</li>
+                            <li><strong>Marketing Strategy:</strong> 4Ps, distribution, pricing, promotion</li>
+                            <li><strong>Operations:</strong> Production, facilities, quality control</li>
+                            <li><strong>Management Team:</strong> Org structure, key people, advisors</li>
+                            <li><strong>Financial Plan:</strong> Past performance, projections, assumptions</li>
+                            <li><strong>Appendices:</strong> Supporting documents</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Critical Perspectives (Karlsson &amp; Honig 2009)</strong>
+                        <ul>
+                            <li>Business plans often become symbolic/mimetic artifacts</li>
+                            <li>Written to gain legitimacy, rarely updated after launch</li>
+                            <li>Planning intensity highest at startup, deteriorates over time</li>
+                            <li>Most useful for external stakeholders (investors), less for operations</li>
+                            <li>Alternative: Lean Startup approach with hypothesis testing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Common Deficiencies</strong>
+                        <ul>
+                            <li>Weak marketing strategy and sales/distribution plans</li>
+                            <li>Competitors not identified</li>
+                            <li>Financial forecasts too superficial, no sensitivity analysis</li>
+                            <li>Unrealistic assumptions and over-optimism</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:10', 'haag-2013-writing-a-successful-business-plan-an-overview.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Haag (2013) - Writing a Successful Business Plan</a></li>
+                            <li><strong>Article:</strong> Karlsson & Honig (2009) - Business plans as symbolic artifacts</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:9', 'HA-4sem-2026-lecture-4-Entr-in-practice-Bus-Plans-stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 20-30)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "Entrepreneurial Process",
+                category: "entrepreneurship",
+                badge: "theory",
+                summary: "Three-step process: Recognition, Marshalling, Capability",
+                details: `
+                    <h2>The Entrepreneurial Process</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/e95dfc32-2bc5-4fad-b583-ab9fc485f46c.png" alt="Entrepreneurial Process" style="width: 100%; max-width: 700px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>1. Opportunity Recognition</strong>
+                        <ul>
+                            <li>Identifying business opportunities</li>
+                            <li>Developing passion to drive it forward</li>
+                            <li>Why some discover opportunities and others don't:</li>
+                            <ul>
+                                <li>Information advantages (not evenly distributed)</li>
+                                <li>Cognitive properties to value information</li>
+                                <li>Specialized skills/knowledge to interpret signals</li>
+                            </ul>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>2. Marshalling Resources</strong>
+                        <ul>
+                            <li>Cannot achieve goals alone - need people, money, equipment, support</li>
+                            <li>Ability to develop networks is critical</li>
+                            <li><strong>Bootstrapping:</strong> Keep lean, sweat equity, beg/borrow/befriend</li>
+                            <li>Strategic alliances to access resources you don't own</li>
+                            <li>Investment follows good opportunities and teams</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>3. Developing Capability</strong>
+                        <ul>
+                            <li>Learn to develop venture's capabilities for sustained growth</li>
+                            <li>Strong entrepreneurial orientation in leadership</li>
+                            <li>Management team with diverse functional backgrounds</li>
+                            <li>Independent board of directors for guidance</li>
+                            <li>As venture grows, add specialized skills and managers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Triggers for New Venture Creation</strong>
+                        <ol>
+                            <li><strong>Creativity:</strong> Use talents, interesting job, create something, realize dream</li>
+                            <li><strong>Autonomy:</strong> Be own boss, control location and hours</li>
+                            <li><strong>Money:</strong> Keep larger share of proceeds, earn more</li>
+                            <li><strong>Market opportunity:</strong> Identified gap, positive indicators</li>
+                            <li><strong>Investment:</strong> Use savings, redundancy, need for job</li>
+                            <li><strong>Status:</strong> Follow example, increase prestige, family tradition</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Barriers to New Venture Creation</strong>
+                        <ol>
+                            <li><strong>Hard reality:</strong> Risks greater than expected, difficulty, uncertainty, fear of failure</li>
+                            <li><strong>Lack of resources:</strong> Skills gaps, information, finance, premises</li>
+                            <li><strong>Compliance costs:</strong> Regulations, taxes, finding employees</li>
+                        </ol>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 293-305)</li>
+                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 5-11)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "Innovation in Small vs. Large Firms",
+                category: "innovation",
+                badge: "theory",
+                summary: "Different approaches, resources, and challenges",
+                details: `
+                    <h2>Innovation Dynamics: Small vs. Large Firms</h2>
+                    
+                    <div class="key-point">
+                        <strong>Small Firms</strong>
+                        <ul>
+                            <li><strong>Advantages:</strong> Flexibility, agility, entrepreneurial culture</li>
+                            <li><strong>Challenges:</strong> Limited resources, lack of R&amp;D budgets, skills gaps</li>
+                            <li><strong>Strategy:</strong> Rely on collaboration, networking, niche focus</li>
+                            <li><strong>Innovation type:</strong> Often radical/disruptive due to less to lose</li>
+                            <li><strong>Search:</strong> Informal methods, close customer contact</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Large Firms</strong>
+                        <ul>
+                            <li><strong>Advantages:</strong> Resources, R&amp;D capacity, market power, brand</li>
+                            <li><strong>Challenges:</strong> Bureaucracy, NIH syndrome, risk aversion, organizational inertia</li>
+                            <li><strong>Strategy:</strong> Systematic R&amp;D, multiple projects, formal processes</li>
+                            <li><strong>Innovation type:</strong> Often incremental/sustaining</li>
+                            <li><strong>Search:</strong> Structured processes, dedicated research teams</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Key Success Factors for Both</strong>
+                        <ol>
+                            <li><strong>Market orientation:</strong> Monitor and respond to customer needs</li>
+                            <li><strong>Innovative leadership:</strong> Set direction, motivate, guide</li>
+                            <li><strong>Non-linear strategic planning:</strong> Continuous screening and selection</li>
+                            <li><strong>Ambidextrous structure:</strong> Balance exploration and exploitation</li>
+                            <li><strong>Innovation-focused culture:</strong> Support, tolerance of failure, investment in people</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Not-Invented-Here (NIH) Syndrome</strong>
+                        <p>Tendency to reject external ideas, believing monopoly of knowledge in field</p>
+                        <ul>
+                            <li>Major barrier to open innovation</li>
+                            <li>Requires absorptive capacity to overcome</li>
+                            <li>Need to actively seek external sources of innovation</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 184-192)</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 7 (pp. 218-225)</li>
+                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 16-19)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "Dynamic Capabilities",
+                category: "business-models",
+                badge: "theory",
+                summary: "Ability to sense, seize, and reconfigure for sustained advantage",
+                details: `
+                    <h2>Dynamic Capabilities (Teece 2008)</h2>
+                    <p><strong>Definition:</strong> Firm's ability to integrate, build, and reconfigure competencies to address rapidly changing environments</p>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/d3dbbcf0-df24-4340-9c24-a18de72d92ed.png" alt="Dynamic Capabilities" style="width: 100%; max-width: 500px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>Three Core Capabilities</strong>
+                        <ol>
+                            <li><strong>Sensing:</strong> Identify and assess opportunities and threats
+                                <ul>
+                                    <li>Environmental scanning</li>
+                                    <li>Learning from suppliers, customers, competitors</li>
+                                    <li>R&amp;D and technology development</li>
+                                </ul>
+                            </li>
+                            <li><strong>Seizing:</strong> Mobilize resources to capture value
+                                <ul>
+                                    <li>Make strategic investment decisions</li>
+                                    <li>Develop new products/services</li>
+                                    <li>Design business models</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reconfiguring:</strong> Continuous renewal
+                                <ul>
+                                    <li>Realign organizational structure</li>
+                                    <li>Manage co-specialization</li>
+                                    <li>Knowledge management</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Why Important for Business Models</strong>
+                        <ul>
+                            <li>Business models need continuous innovation to stay relevant</li>
+                            <li>Technology and market changes require adaptation</li>
+                            <li>Competitive advantage is temporary without renewal</li>
+                            <li>Links strategy with innovation and entrepreneurship</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Microfoundations</strong>
+                        <ul>
+                            <li>Processes (coordination, integration, learning)</li>
+                            <li>Positions (assets, governance structures, market position)</li>
+                            <li>Paths (strategic alternatives, path dependencies)</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> Teece (2008) - Dynamic Capabilities & Business Models</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 328-332)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 25-32)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 11,
+                title: "TAM, SAM, SOM Analysis",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Market sizing framework for opportunity assessment",
+                details: `
+                    <h2>TAM-SAM-SOM Market Analysis</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/gemini_images/1074c440-5bcc-4e90-a4b0-b45e1534697e.png" alt="TAM-SAM-SOM" style="width: 100%; max-width: 600px; margin: 1.5rem auto; display: block; border-radius: 12px; box-shadow: var(--shadow-md);">
+                    
+                    <div class="key-point">
+                        <strong>TAM - Total Addressable Market</strong>
+                        <ul>
+                            <li>Maximum revenue opportunity if 100% market share achieved</li>
+                            <li>Entire market demand for product/service</li>
+                            <li>Helps understand maximum growth potential</li>
+                            <li><strong>Example:</strong> All global smartphone users = TAM for mobile app</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>SAM - Serviceable Available Market</strong>
+                        <ul>
+                            <li>Portion of TAM targeted by your products/services</li>
+                            <li>Based on geographic focus, product fit, operational capabilities</li>
+                            <li>Realistic target considering resources</li>
+                            <li><strong>Example:</strong> iOS users in Europe = SAM for European iOS app</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>SOM - Serviceable Obtainable Market</strong>
+                        <ul>
+                            <li>Realistic market share you can capture short-term</li>
+                            <li>Considers competition, market dynamics, internal resources</li>
+                            <li>Most important for financial projections and planning</li>
+                            <li><strong>Example:</strong> 2% of iOS users in Europe = SOM for new entrant</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>How to Calculate</strong>
+                        <ul>
+                            <li><strong>Top-down:</strong> Industry research, market reports, analyst data</li>
+                            <li><strong>Bottom-up:</strong> Product pricing × annual purchase frequency × potential customers</li>
+                            <li><strong>Value theory:</strong> Estimate value you provide × number of potential users</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Why Important</strong>
+                        <ul>
+                            <li>Essential for investor pitches and business plans</li>
+                            <li>Helps prioritize markets and segments</li>
+                            <li>Guides resource allocation and scaling strategy</li>
+                            <li>Validates business opportunity size</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 306-307)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 6-8)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 12,
+                title: "Porter's Five Forces",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Framework for analyzing competitive environment",
+                details: `
+                    <h2>Porter's Five Forces Model</h2>
+                    <p><strong>Purpose:</strong> Analyze competitive intensity and profitability of industry</p>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/a1ea87c5-8e5c-4bb6-9cd4-fcfb6c162763.png" alt="Porter's Five Forces" style="width: 100%; max-width: 600px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>1. Threat of New Entry</strong>
+                        <ul>
+                            <li>Time and cost of entry</li>
+                            <li>Specialist knowledge requirements</li>
+                            <li>Economies of scale</li>
+                            <li>Cost advantages of incumbents</li>
+                            <li>Technology protection (patents, IP)</li>
+                            <li>Barriers to entry (capital, regulations)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>2. Competitive Rivalry</strong>
+                        <ul>
+                            <li>Number and capability of competitors</li>
+                            <li>Quality and differentiation</li>
+                            <li>Switching costs for customers</li>
+                            <li>Customer loyalty</li>
+                            <li>Costs of leaving market</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>3. Supplier Power</strong>
+                        <ul>
+                            <li>Number and size of suppliers</li>
+                            <li>Uniqueness of service/product</li>
+                            <li>Your ability to substitute</li>
+                            <li>Cost of changing suppliers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>4. Buyer Power</strong>
+                        <ul>
+                            <li>Number and size of customers</li>
+                            <li>Size of each order</li>
+                            <li>Differences between competitors</li>
+                            <li>Price sensitivity</li>
+                            <li>Ability to substitute</li>
+                            <li>Cost of changing suppliers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>5. Threat of Substitutes</strong>
+                        <ul>
+                            <li>Alternative products/services performance</li>
+                            <li>Cost of switching to substitute</li>
+                            <li>Buyer willingness to substitute</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Application</strong>
+                        <ul>
+                            <li>Higher force intensity = Lower industry profitability</li>
+                            <li>Use for strategic positioning and business planning</li>
+                            <li>Helps identify attractive industries and market segments</li>
+                            <li>Can be challenging to apply in practice (Dobbs 2014)</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Source:</strong> Porter (1979) - Five Forces Framework</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 168-172)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 4-5)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 13,
+                title: "SWOT Analysis",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Internal strengths/weaknesses, external opportunities/threats",
+                details: `
+                    <h2>SWOT Analysis Framework</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/51d557e0-dbce-4802-8c1c-25ff5d152cb4.png" alt="SWOT Analysis" style="width: 100%; max-width: 500px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>STRENGTHS (Internal, Positive)</strong>
+                        <p>What advantages does your organization have?</p>
+                        <ul>
+                            <li>Unique product/service features</li>
+                            <li>Location advantages</li>
+                            <li>Specific knowledge or expertise</li>
+                            <li>Strong brand or reputation</li>
+                            <li>Patents or IP</li>
+                            <li>Efficient processes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>WEAKNESSES (Internal, Negative)</strong>
+                        <p>What could you improve?</p>
+                        <ul>
+                            <li>Lack of marketing knowledge</li>
+                            <li>Poor location or facilities</li>
+                            <li>Limited resources or capabilities</li>
+                            <li>Weak brand recognition</li>
+                            <li>Skills gaps in team</li>
+                            <li>Cash flow problems</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>OPPORTUNITIES (External, Positive)</strong>
+                        <p>What good circumstances can you exploit?</p>
+                        <ul>
+                            <li>New international markets opening</li>
+                            <li>Market growth trends</li>
+                            <li>Technology developments</li>
+                            <li>Strategic alliance possibilities</li>
+                            <li>Competitor weaknesses</li>
+                            <li>Regulatory changes in your favor</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>THREATS (External, Negative)</strong>
+                        <p>What obstacles do you face?</p>
+                        <ul>
+                            <li>New competitors entering market</li>
+                            <li>New competitor products</li>
+                            <li>Changing regulations or taxation</li>
+                            <li>Economic downturn</li>
+                            <li>Changing customer preferences</li>
+                            <li>Technology making product obsolete</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Strategic Questions</strong>
+                        <ul>
+                            <li>How can we use strengths to take advantage of opportunities?</li>
+                            <li>How can we overcome weaknesses to pursue opportunities?</li>
+                            <li>How can we use strengths to avoid threats?</li>
+                            <li>How can we minimize weaknesses and avoid threats?</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 172-175)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 3-4)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 14,
+                title: "PESTEL Analysis",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Macro-environmental factors affecting business",
+                details: `
+                    <h2>PESTEL Framework</h2>
+                    <p><strong>Purpose:</strong> Analyze external macro-environmental factors affecting organization</p>
+                    
+                    <div class="key-point">
+                        <strong>Political Factors</strong>
+                        <ul>
+                            <li>Government stability and policies</li>
+                            <li>Tax policies and regulations</li>
+                            <li>Trade restrictions and tariffs</li>
+                            <li>Political stability</li>
+                            <li>Labor laws</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Economic Factors</strong>
+                        <ul>
+                            <li>Economic growth rates</li>
+                            <li>Interest and exchange rates</li>
+                            <li>Inflation</li>
+                            <li>Unemployment levels</li>
+                            <li>Disposable income</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Social Factors</strong>
+                        <ul>
+                            <li>Demographics and population changes</li>
+                            <li>Cultural attitudes and lifestyle trends</li>
+                            <li>Education levels</li>
+                            <li>Health consciousness</li>
+                            <li>Safety concerns</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Technological Factors</strong>
+                        <ul>
+                            <li>R&amp;D activity and innovation</li>
+                            <li>Automation and digitalization</li>
+                            <li>Technology incentives</li>
+                            <li>Rate of technological change</li>
+                            <li>Technology access and infrastructure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Environmental Factors</strong>
+                        <ul>
+                            <li>Climate change concerns</li>
+                            <li>Environmental regulations</li>
+                            <li>Sustainability requirements</li>
+                            <li>Carbon footprint</li>
+                            <li>Waste disposal</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Legal Factors</strong>
+                        <ul>
+                            <li>Employment laws</li>
+                            <li>Consumer protection</li>
+                            <li>Health and safety regulations</li>
+                            <li>IP laws</li>
+                            <li>Data protection</li>
+                        </ul>
+                    </div>
+                    
+                    <p><strong>Application:</strong> Especially useful when entering new markets or going international</p>
+                `
+            },
+            {
+                id: 15,
+                title: "Dark Side of Entrepreneurship",
+                category: "entrepreneurship",
+                badge: "critical",
+                summary: "Potential negative consequences and ethical concerns",
+                details: `
+                    <h2>The Dark Side of Entrepreneurship (Wright & Zahra 2011)</h2>
+                    
+                    <div class="key-point">
+                        <strong>Key Areas of Concern</strong>
+                        <ul>
+                            <li>Not all entrepreneurship creates positive value</li>
+                            <li>Can have negative consequences for individuals, organizations, society</li>
+                            <li>Need to understand both bright and dark sides</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Individual-Level Dark Side</strong>
+                        <ul>
+                            <li>Work-life imbalance and stress</li>
+                            <li>Mental health issues (anxiety, depression)</li>
+                            <li>Relationship strain and family problems</li>
+                            <li>Financial insecurity and debt</li>
+                            <li>Identity issues when venture fails</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Organizational-Level Dark Side</strong>
+                        <ul>
+                            <li>Toxic work cultures</li>
+                            <li>Exploitation of employees</li>
+                            <li>Unethical business practices</li>
+                            <li>Cutting corners on quality or safety</li>
+                            <li>Fraud and deception</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Societal-Level Dark Side</strong>
+                        <ul>
+                            <li>Environmental damage</li>
+                            <li>Market manipulation</li>
+                            <li>Tax avoidance schemes</li>
+                            <li>Predatory business models</li>
+                            <li>Widening inequality</li>
+                            <li>Negative externalities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Examples</strong>
+                        <ul>
+                            <li>Theranos (fraud in healthcare)</li>
+                            <li>Uber (regulatory evasion, worker exploitation)</li>
+                            <li>Payday lending (predatory practices)</li>
+                            <li>Cryptocurrency scams</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Implications</strong>
+                        <ul>
+                            <li>Need for ethical frameworks in entrepreneurship education</li>
+                            <li>Balance profit motive with social responsibility</li>
+                            <li>Regulatory oversight important but not sufficient</li>
+                            <li>Entrepreneurial judgment includes ethical dimensions</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:6', 'Wright-Zahra-Dark-side-of-entrepreneurship-2011-IEB.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Wright & Zahra (2011) - Dark side of entrepreneurship</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:4', 'HA-4sem-2026-lecture-2-The-entrepreneur-stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 28-35)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 16,
+                title: "Social Entrepreneurship",
+                category: "entrepreneurship",
+                badge: "theory",
+                summary: "Creating social value while pursuing economic sustainability",
+                details: `
+                    <h2>Social Entrepreneurship</h2>
+                    
+                    <div class="key-point">
+                        <strong>Definition</strong>
+                        <p>Entrepreneurship where primary mission is creating social value rather than wealth for owners/shareholders</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Key Characteristics</strong>
+                        <ul>
+                            <li><strong>Social mission:</strong> Core to value proposition</li>
+                            <li><strong>Market-based approach:</strong> Earned income strategies</li>
+                            <li><strong>Innovation:</strong> New solutions to social problems</li>
+                            <li><strong>Impact measurement:</strong> Social and environmental outcomes</li>
+                            <li><strong>Sustainability:</strong> Must be financially viable</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Differences from Commercial Entrepreneurship</strong>
+                        <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                            <tr style="background: var(--color-surface);">
+                                <th style="padding: 0.5rem; border: 1px solid var(--color-border);">Aspect</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--color-border);">Commercial</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--color-border);">Social</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Primary goal</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Financial returns</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Social impact</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Success metrics</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Profit, ROI, market share</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Lives improved, problem solved</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Beneficiaries</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Customers, shareholders</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Society, vulnerable groups</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Profit distribution</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">To owners/investors</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Reinvested in mission</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Examples</strong>
+                        <ul>
+                            <li><strong>TOMS Shoes:</strong> One-for-one giving model</li>
+                            <li><strong>Grameen Bank:</strong> Microfinance for poverty alleviation</li>
+                            <li><strong>Fairphone:</strong> Ethical smartphone production</li>
+                            <li><strong>d.light:</strong> Solar lighting for developing world</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Challenges</strong>
+                        <ul>
+                            <li>Balancing social mission with financial sustainability</li>
+                            <li>Measuring social impact</li>
+                            <li>Access to capital (mission-aligned investors needed)</li>
+                            <li>Scaling while maintaining mission</li>
+                            <li>Mission drift risk</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 338-342)</li>
+                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 26-27)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 17,
+                title: "Financing Sources for Ventures",
+                category: "entrepreneurship",
+                badge: "practice",
+                summary: "Types of funding and their characteristics",
+                details: `
+                    <h2>Entrepreneurial Finance Sources</h2>
+                    
+                    <div class="key-point">
+                        <strong>1. Bootstrapping</strong>
+                        <ul>
+                            <li>Personal savings, credit cards</li>
+                            <li>Sweat equity (work without pay)</li>
+                            <li>Revenue from customers</li>
+                            <li><strong>Pros:</strong> No dilution, maintain control</li>
+                            <li><strong>Cons:</strong> Limited scale, personal financial risk</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>2. Family &amp; Friends (F&amp;F)</strong>
+                        <ul>
+                            <li>Loans or equity from personal network</li>
+                            <li><strong>Pros:</strong> Flexible terms, trust-based</li>
+                            <li><strong>Cons:</strong> Relationship risk, limited amounts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>3. Angel Investors</strong>
+                        <ul>
+                            <li>High net-worth individuals investing own money</li>
+                            <li>Typical investment: $25k-$500k</li>
+                            <li>Often provide mentorship and connections</li>
+                            <li><strong>Pros:</strong> Smart money, network access</li>
+                            <li><strong>Cons:</strong> Equity dilution, board involvement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>4. Venture Capital (VC)</strong>
+                        <ul>
+                            <li>Professional investors managing pooled funds</li>
+                            <li>Typical investment: $500k-$20M+</li>
+                            <li>Seek high growth, scalable businesses</li>
+                            <li>Target 10x+ returns in 5-7 years</li>
+                            <li><strong>Pros:</strong> Large capital, expertise, network</li>
+                            <li><strong>Cons:</strong> Significant dilution, loss of control, pressure for exits</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>5. Crowdfunding</strong>
+                        <ul>
+                            <li><strong>Reward-based:</strong> Pre-sales, perks (Kickstarter)</li>
+                            <li><strong>Equity:</strong> Small investors buy shares</li>
+                            <li><strong>Debt:</strong> P2P lending</li>
+                            <li><strong>Pros:</strong> Market validation, marketing, diverse investors</li>
+                            <li><strong>Cons:</strong> Time intensive, not guaranteed, IP exposure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>6. Bank Loans</strong>
+                        <ul>
+                            <li>Debt financing with interest</li>
+                            <li><strong>Pros:</strong> No equity dilution, tax-deductible interest</li>
+                            <li><strong>Cons:</strong> Requires collateral, regular payments, personal guarantees</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>7. Government Grants &amp; Subsidies</strong>
+                        <ul>
+                            <li>Non-dilutive funding for specific purposes</li>
+                            <li><strong>Pros:</strong> No repayment or dilution</li>
+                            <li><strong>Cons:</strong> Competitive, reporting requirements, restrictions on use</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Funding Stages</strong>
+                        <ol>
+                            <li><strong>Pre-seed:</strong> F&amp;F, bootstrapping, grants</li>
+                            <li><strong>Seed:</strong> Angels, seed VCs, crowdfunding</li>
+                            <li><strong>Series A:</strong> VCs for scaling</li>
+                            <li><strong>Series B+:</strong> Growth capital</li>
+                            <li><strong>Exit:</strong> IPO or acquisition</li>
+                        </ol>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 335-338)</li>
+                            <li><strong>Lecture:</strong> Lecture 4 - Entrepreneurship in Practice (Slides 31-38)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 18,
+                title: "IP Protection Strategies",
+                category: "innovation",
+                badge: "practice",
+                summary: "Formal and informal methods to protect innovations",
+                details: `
+                    <h2>Intellectual Property Protection</h2>
+                    
+                    <div class="key-point">
+                        <strong>Formal IP Rights</strong>
+                        <ul>
+                            <li><strong>Patents:</strong> Protect inventions (20 years), requires disclosure, expensive</li>
+                            <li><strong>Trademarks:</strong> Protect brands, logos, names (renewable)</li>
+                            <li><strong>Copyright:</strong> Protect creative works (automatic, long duration)</li>
+                            <li><strong>Design Rights:</strong> Protect aesthetic elements of products</li>
+                            <li><strong>Trade Secrets:</strong> Protect confidential business information (no registration)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Informal Protection Methods</strong>
+                        <ul>
+                            <li><strong>Lead time advantage:</strong> First to market before competitors copy</li>
+                            <li><strong>Complexity:</strong> Make product difficult to reverse-engineer</li>
+                            <li><strong>Continuous innovation:</strong> Stay ahead through ongoing R&amp;D</li>
+                            <li><strong>Customer relationships:</strong> Lock-in through loyalty and switching costs</li>
+                            <li><strong>Complementary assets:</strong> Control of manufacturing, distribution, brand</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Strategy Selection Factors</strong>
+                        <ul>
+                            <li>Nature of innovation (easily codifiable vs. tacit)</li>
+                            <li>Industry characteristics (disclosure norms, imitation speed)</li>
+                            <li>Costs of protection vs. benefits</li>
+                            <li>Firm capabilities (legal resources, manufacturing)</li>
+                            <li>Innovation type (product vs. process)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>When to Use What</strong>
+                        <ul>
+                            <li><strong>Patents:</strong> Novel technical inventions, biotech, pharmaceuticals</li>
+                            <li><strong>Trade secrets:</strong> Processes, formulas (Coca-Cola recipe), customer lists</li>
+                            <li><strong>Trademarks:</strong> Brand-critical businesses, consumer products</li>
+                            <li><strong>Copyright:</strong> Software, creative content, documentation</li>
+                            <li><strong>Speed:</strong> Fashion, technology with rapid cycles</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Critical Considerations</strong>
+                        <ul>
+                            <li>Patents require full disclosure - competitors learn your approach</li>
+                            <li>Trade secrets have no time limit but can be reverse-engineered</li>
+                            <li>Often need combination of methods (complementary protection)</li>
+                            <li>Some industries rely more on informal methods (surveys show 60-70%)</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 5 (pp. 145-152)</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 255-260)</li>
+                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 29-33)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 19,
+                title: "Absorptive Capacity",
+                category: "innovation",
+                badge: "theory",
+                summary: "Ability to recognize, assimilate, and apply external knowledge",
+                details: `
+                    <h2>Absorptive Capacity (Cohen & Levinthal 1990)</h2>
+                    
+                    <div class="key-point">
+                        <strong>Definition</strong>
+                        <p>Firm's ability to recognize value of new external information, assimilate it, and apply it to commercial ends</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Four Dimensions</strong>
+                        <ol>
+                            <li><strong>Acquisition:</strong> Identify and acquire external knowledge</li>
+                            <li><strong>Assimilation:</strong> Analyze, interpret, and understand acquired knowledge</li>
+                            <li><strong>Transformation:</strong> Combine existing knowledge with new knowledge</li>
+                            <li><strong>Exploitation:</strong> Apply knowledge to create new products/processes</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Key Determinants</strong>
+                        <ul>
+                            <li><strong>Prior related knowledge:</strong> Existing knowledge base enables learning</li>
+                            <li><strong>Diversity of knowledge:</strong> Broader base = better absorption</li>
+                            <li><strong>R&amp;D investment:</strong> Develops absorptive capacity as byproduct</li>
+                            <li><strong>Organizational structure:</strong> Cross-functional teams, communication</li>
+                            <li><strong>External networks:</strong> Connections to knowledge sources</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Why Important</strong>
+                        <ul>
+                            <li>Essential for open innovation strategies</li>
+                            <li>Enables firms to benefit from external R&amp;D</li>
+                            <li>Critical for technology adoption and diffusion</li>
+                            <li>Competitive advantage in knowledge-intensive industries</li>
+                            <li>Path-dependent: Develops cumulatively over time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Practical Implications</strong>
+                        <ul>
+                            <li>Invest in R&amp;D even when external knowledge available</li>
+                            <li>Build diverse knowledge base across disciplines</li>
+                            <li>Develop boundary-spanning roles and gatekeepers</li>
+                            <li>Create knowledge management systems</li>
+                            <li>Encourage employee learning and skill development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Barriers</strong>
+                        <ul>
+                            <li>Not-Invented-Here (NIH) syndrome</li>
+                            <li>Lack of prior knowledge in field</li>
+                            <li>Poor internal communication</li>
+                            <li>Insufficient resources dedicated to learning</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> Cohen & Levinthal (1990) - Absorptive capacity</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 245-250)</li>
+                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 34-38)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 20,
+                title: "Open Innovation",
+                category: "innovation",
+                badge: "theory",
+                summary: "Using external and internal ideas to advance innovation",
+                details: `
+                    <h2>Open Innovation (Chesbrough 2003)</h2>
+                    
+                    <div class="key-point">
+                        <strong>Core Concept</strong>
+                        <p>Valuable ideas can come from inside or outside the company and can go to market from inside or outside the company</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Closed vs. Open Innovation</strong>
+                        <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                            <tr style="background: var(--color-surface);">
+                                <th style="padding: 0.5rem; border: 1px solid var(--color-border);">Closed Innovation</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--color-border);">Open Innovation</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Smart people work for us</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Work with smart people inside and outside</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Discover, develop, ship ourselves</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">External/internal R&amp;D both create value</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Discover it first wins</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Better business model wins</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Best ideas win</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Best use of ideas wins</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Control IP to prevent use</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--color-border);">Profit from others' IP use, license ours</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Inbound vs. Outbound</strong>
+                        <ul>
+                            <li><strong>Inbound:</strong> Bringing external knowledge in (sourcing, acquiring)</li>
+                            <li><strong>Outbound:</strong> Sending internal knowledge out (revealing, selling)</li>
+                            <li><strong>Coupled:</strong> Co-creation with partners (alliances, joint ventures)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Methods &amp; Practices</strong>
+                        <ul>
+                            <li>External R&amp;D contracts</li>
+                            <li>Technology licensing (in/out)</li>
+                            <li>Strategic alliances and partnerships</li>
+                            <li>Corporate venturing and incubators</li>
+                            <li>Crowdsourcing and innovation contests</li>
+                            <li>Open source development</li>
+                            <li>Customer co-creation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Benefits</strong>
+                        <ul>
+                            <li>Access to broader knowledge pool</li>
+                            <li>Faster innovation cycles</li>
+                            <li>Risk and cost sharing</li>
+                            <li>Additional revenue from unused IP</li>
+                            <li>Market insights from external partners</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Challenges</strong>
+                        <ul>
+                            <li>NIH syndrome - cultural resistance</li>
+                            <li>IP management complexity</li>
+                            <li>Knowledge leakage risks</li>
+                            <li>Finding and managing partners</li>
+                            <li>Requires absorptive capacity</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Source:</strong> Chesbrough (2003) - Open Innovation paradigm</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 232-245)</li>
+                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 39-45)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 21,
+                title: "Diffusion of Innovation",
+                category: "innovation",
+                badge: "theory",
+                summary: "How innovations spread through populations (Rogers)",
+                details: `
+                    <h2>Diffusion of Innovation Theory (Rogers)</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/bbc72f61-c739-4541-8b97-eefb362f9820.png" alt="Diffusion of Innovation S-Curve" style="width: 100%; max-width: 700px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>Five Adopter Categories</strong>
+                        <ol>
+                            <li><strong>Innovators (2.5%):</strong> Risk-takers, venturesome, cosmopolitan</li>
+                            <li><strong>Early Adopters (13.5%):</strong> Opinion leaders, respected, integrated in social system</li>
+                            <li><strong>Early Majority (34%):</strong> Deliberate, adopt before average, important for legitimacy</li>
+                            <li><strong>Late Majority (34%):</strong> Skeptical, adopt after average, economic necessity</li>
+                            <li><strong>Laggards (16%):</strong> Traditional, suspicious of change, limited resources</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>S-Curve Adoption Pattern</strong>
+                        <ul>
+                            <li>Slow start with innovators and early adopters</li>
+                            <li>Rapid acceleration through early and late majority</li>
+                            <li>Slow down as market saturates with laggards</li>
+                            <li><strong>Critical mass:</strong> Point where adoption becomes self-sustaining</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Five Characteristics Affecting Adoption Rate</strong>
+                        <ol>
+                            <li><strong>Relative Advantage:</strong> Perceived benefit over existing solutions</li>
+                            <li><strong>Compatibility:</strong> Fit with existing values, experiences, needs</li>
+                            <li><strong>Complexity:</strong> How difficult to understand and use</li>
+                            <li><strong>Trialability:</strong> Can experiment on limited basis before committing</li>
+                            <li><strong>Observability:</strong> Visible results to others</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Communication Channels</strong>
+                        <ul>
+                            <li><strong>Mass media:</strong> Awareness and knowledge (early stages)</li>
+                            <li><strong>Interpersonal:</strong> Persuasion and decision (later stages)</li>
+                            <li><strong>Opinion leaders:</strong> Critical for crossing chasm to majority</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>The Chasm (Moore)</strong>
+                        <ul>
+                            <li>Gap between early adopters and early majority</li>
+                            <li>Early adopters: Want revolutionary change</li>
+                            <li>Early majority: Want evolution, proven solutions</li>
+                            <li><strong>Strategy:</strong> Focus on specific niche, create references, build ecosystem</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Practical Implications</strong>
+                        <ul>
+                            <li>Identify and target innovators/early adopters first</li>
+                            <li>Use them as references for early majority</li>
+                            <li>Simplify product for mainstream adoption</li>
+                            <li>Demonstrate clear relative advantage</li>
+                            <li>Enable trial and reduce risk</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Source:</strong> Rogers (1962/2003) - Diffusion of Innovations</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 12 (pp. 382-395)</li>
+                            <li><strong>Book:</strong> Moore - Crossing the Chasm (1991)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 22,
+                title: "Stage-Gate Process",
+                category: "innovation",
+                badge: "practice",
+                summary: "Structured new product development framework (Cooper)",
+                details: `
+                    <h2>Stage-Gate NPD Process (Cooper)</h2>
+                    <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/70215226-cbb4-49a4-b72a-36c786d07e17.png" alt="Stage-Gate Process" style="width: 100%; max-width: 700px; margin: 1rem auto; display: block; border-radius: 8px;">
+                    
+                    <div class="key-point">
+                        <strong>Core Concept</strong>
+                        <p>Roadmap from idea to launch with stages (work) and gates (go/kill decisions)</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Five Stages</strong>
+                        <ol>
+                            <li><strong>Scoping:</strong> Quick preliminary assessment
+                                <ul>
+                                    <li>Desk research on market and technical feasibility</li>
+                                    <li>Rough financial assessment</li>
+                                </ul>
+                            </li>
+                            <li><strong>Build Business Case:</strong> Detailed investigation
+                                <ul>
+                                    <li>User needs-and-wants studies</li>
+                                    <li>Competitive analysis</li>
+                                    <li>Concept testing</li>
+                                    <li>Technical feasibility assessment</li>
+                                    <li>Financial justification</li>
+                                </ul>
+                            </li>
+                            <li><strong>Development:</strong> Create the product
+                                <ul>
+                                    <li>Product design and engineering</li>
+                                    <li>Prototype development</li>
+                                    <li>Manufacturing process design</li>
+                                    <li>Marketing plan development</li>
+                                </ul>
+                            </li>
+                            <li><strong>Testing &amp; Validation:</strong> Verify the product
+                                <ul>
+                                    <li>In-house product testing</li>
+                                    <li>Customer field trials</li>
+                                    <li>Test market/trial sell</li>
+                                    <li>Pilot production</li>
+                                </ul>
+                            </li>
+                            <li><strong>Launch:</strong> Commercialize
+                                <ul>
+                                    <li>Full production</li>
+                                    <li>Market launch</li>
+                                    <li>Distribution</li>
+                                    <li>Post-launch monitoring</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Gates (Decision Points)</strong>
+                        <ul>
+                            <li>Each gate has criteria (deliverables, must-meet, should-meet)</li>
+                            <li>Cross-functional gatekeepers make Go/Kill/Hold/Recycle decisions</li>
+                            <li>Based on quality of execution and business attractiveness</li>
+                            <li>Resource allocation decisions made at gates</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Benefits</strong>
+                        <ul>
+                            <li>Reduces risk through incremental commitment</li>
+                            <li>Improves success rates (quality of execution)</li>
+                            <li>Faster time to market (focus on right projects)</li>
+                            <li>Better resource allocation (kill weak projects early)</li>
+                            <li>Cross-functional teamwork and ownership</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Critical Success Factors</strong>
+                        <ul>
+                            <li>Strong front-end homework (Stages 1-2)</li>
+                            <li>Voice of Customer throughout</li>
+                            <li>Sharp gates with teeth (discipline to kill)</li>
+                            <li>Cross-functional teams with accountability</li>
+                            <li>Flexibility (not bureaucratic)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Criticisms &amp; Evolution</strong>
+                        <ul>
+                            <li>Can be too linear for radical innovation</li>
+                            <li>May slow down process if too rigid</li>
+                            <li>Modern versions: More flexible, overlapping stages</li>
+                            <li>Agile-Stage-Gate hybrid for faster cycles</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Source:</strong> Cooper (1990) - Stage-Gate NPD process</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 11 (pp. 346-365)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 23,
+                title: "Voice of Customer (VOC)",
+                category: "frameworks",
+                badge: "tools",
+                summary: "Techniques to capture customer needs and requirements",
+                details: `
+                    <h2>Voice of Customer (VOC) Methods</h2>
+                    
+                    <div class="key-point">
+                        <strong>Purpose</strong>
+                        <p>Understand customer needs (spoken and unspoken) to guide product development</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Three Types of Customer Needs</strong>
+                        <ol>
+                            <li><strong>Basic/Expected:</strong> What customer assumes product will do (must-have)</li>
+                            <li><strong>Spoken/Articulated:</strong> What customer says they want</li>
+                            <li><strong>Unspoken/Exciting:</strong> Delight factors customer hasn't thought of</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Research Methods</strong>
+                        <ul>
+                            <li><strong>Focus Groups:</strong> 8-12 people, facilitated discussion, 1-2 hours</li>
+                            <li><strong>In-depth Interviews:</strong> One-on-one, detailed exploration</li>
+                            <li><strong>Ethnographic Research:</strong> Observe in natural environment, "camping out"</li>
+                            <li><strong>Lead User Studies:</strong> Work with innovative early adopters</li>
+                            <li><strong>Customer Visits:</strong> Cross-functional teams visit customer sites</li>
+                            <li><strong>Surveys:</strong> Quantitative data from larger samples</li>
+                            <li><strong>Crowdsourcing:</strong> Online platforms for ideas and co-creation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>House of Quality (QFD)</strong>
+                        <p>Matrix linking customer needs to technical design attributes</p>
+                        <ul>
+                            <li>Customer needs vs. Design attributes</li>
+                            <li>Relationship strength between them</li>
+                            <li>Competitive benchmarking</li>
+                            <li>Prioritization of features</li>
+                            <li>Target specifications</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Kano Model</strong>
+                        <p>Categorizes features by impact on satisfaction</p>
+                        <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/7ec80ef5-a204-44f6-a65c-3ee0adf644fb.png" alt="Kano Model" style="width: 100%; max-width: 500px; margin: 1rem 0; display: block; border-radius: 8px;">
+                        <ul>
+                            <li><strong>Must-be:</strong> Expected, dissatisfaction if absent</li>
+                            <li><strong>One-dimensional:</strong> More = better (linear satisfaction)</li>
+                            <li><strong>Attractive:</strong> Delight if present, no dissatisfaction if absent</li>
+                            <li><strong>Indifferent:</strong> Customer doesn't care</li>
+                            <li><strong>Reverse:</strong> Some like, some dislike</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Best Practices</strong>
+                        <ul>
+                            <li>Open-ended questions (avoid yes/no)</li>
+                            <li>Trained facilitators (avoid bias)</li>
+                            <li>Record sessions (audio/video)</li>
+                            <li>Analyze systematically (affinity diagrams)</li>
+                            <li>Focus on outcomes not solutions (customers don't design)</li>
+                            <li>Involve cross-functional team</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Pitfall: Over-reliance on Customers</strong>
+                        <ul>
+                            <li>"Customers don't know what they want until we show them" - Steve Jobs</li>
+                            <li>Can only express needs based on current experience</li>
+                            <li>Balance VOC with vision and technical possibilities</li>
+                            <li>For radical innovation: Focus on outcomes/problems not solutions</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 11 (pp. 365-372)</li>
+                            <li><strong>Tool:</strong> Kano Model for feature prioritization</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 24,
+                title: "Diversity in Entrepreneurship",
+                category: "entrepreneurship",
+                badge: "theory",
+                summary: "Different types and contexts of entrepreneurial activity",
+                details: `
+                    <h2>Diversity in Entrepreneurship</h2>
+                    
+                    <div class="key-point">
+                        <strong>Ethnic Minority Entrepreneurship</strong>
+                        <ul>
+                            <li>Often face discrimination in labor markets → entrepreneurship as alternative</li>
+                            <li>May have access to ethnic enclaves and niche markets</li>
+                            <li>Can leverage transnational networks and knowledge</li>
+                            <li>Challenges: Access to finance, limited networks outside community</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Women's Entrepreneurship</strong>
+                        <ul>
+                            <li>Growing globally but still underrepresented</li>
+                            <li>Face challenges: Access to finance, networks, family responsibilities</li>
+                            <li>Often in service sectors vs. high-tech</li>
+                            <li>Different motivations: Flexibility, work-life balance important</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Student Entrepreneurship</strong>
+                        <ul>
+                            <li>Universities as incubators</li>
+                            <li>Benefits: Learning opportunity, low opportunity cost</li>
+                            <li>Challenges: Limited experience, resources, credibility</li>
+                            <li>Support programs: Competitions, accelerators, courses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Green/Sustainable Entrepreneurship</strong>
+                        <ul>
+                            <li>Ventures with environmental sustainability core to mission</li>
+                            <li>Addresses climate change, resource depletion, pollution</li>
+                            <li>Examples: Renewable energy, circular economy, sustainable agriculture</li>
+                            <li>Challenges: Higher costs, longer payback, regulatory uncertainty</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Everyday Entrepreneurship (Welter et al. 2017)</strong>
+                        <ul>
+                            <li>Not confined to high-growth tech startups</li>
+                            <li>Includes: Small businesses, self-employment, side hustles</li>
+                            <li>Important for economy and employment</li>
+                            <li>Diverse motivations and outcomes</li>
+                            <li>Broader view recognizes entrepreneurship as pervasive phenomenon</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Context Matters</strong>
+                        <ul>
+                            <li>Geographic location (developed vs. developing economies)</li>
+                            <li>Institutional environment (regulations, support, culture)</li>
+                            <li>Industry sector</li>
+                            <li>Personal circumstances (age, education, resources)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Implications for Support</strong>
+                        <ul>
+                            <li>One-size-fits-all policies don't work</li>
+                            <li>Need tailored support for different groups</li>
+                            <li>Address specific barriers (finance, networks, skills)</li>
+                            <li>Recognize different definitions of success</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> Welter et al. (2017) - Everyday entrepreneurship</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 342-348)</li>
+                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 36-42)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 25,
+                title: "Business Model Innovation",
+                category: "business-models",
+                badge: "theory",
+                summary: "Changing how value is created, delivered, and captured",
+                details: `
+                    <h2>Business Model Innovation (Foss & Saebi 2017)</h2>
+                    
+                    <div class="key-point">
+                        <strong>Definition</strong>
+                        <p>Designed, novel, non-trivial changes to key elements of firm's business model and/or architecture linking these elements</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Types of Changes</strong>
+                        <ul>
+                            <li><strong>Modular:</strong> Change one component (e.g., new revenue model)</li>
+                            <li><strong>Architectural:</strong> Change relationships between components</li>
+                            <li><strong>Radical:</strong> Transform multiple components simultaneously</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Why Innovate Business Models?</strong>
+                        <ul>
+                            <li>Technology change (digitalization, AI, platforms)</li>
+                            <li>Market changes (new customer needs, globalization)</li>
+                            <li>Competitive pressures (disruption threats)</li>
+                            <li>Regulatory changes</li>
+                            <li>Sustainability imperatives</li>
+                            <li>Growth opportunities (new markets, segments)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Examples</strong>
+                        <ul>
+                            <li><strong>Netflix:</strong> DVD rental → Streaming subscription</li>
+                            <li><strong>Nespresso:</strong> Coffee machines + capsule subscription</li>
+                            <li><strong>Airbnb:</strong> Asset-light accommodation platform</li>
+                            <li><strong>Rolls-Royce:</strong> Sell engines → "Power by the hour"</li>
+                            <li><strong>Spotify:</strong> Freemium + Premium subscriptions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Process (Taran et al. 2013)</strong>
+                        <ol>
+                            <li><strong>Initiation:</strong> Trigger events, opportunity identification</li>
+                            <li><strong>Ideation:</strong> Generate alternative business model concepts</li>
+                            <li><strong>Integration:</strong> Design detailed business model</li>
+                            <li><strong>Implementation:</strong> Execute and refine</li>
+                            <li>Risk management throughout</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Challenges</strong>
+                        <ul>
+                            <li>Cannibalization of existing business</li>
+                            <li>Organizational resistance and inertia</li>
+                            <li>Requires different capabilities and resources</li>
+                            <li>Uncertainty about customer acceptance</li>
+                            <li>Complexity of managing two models simultaneously</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="key-point">
+                        <strong>Success Factors</strong>
+                        <ul>
+                            <li>Top management support</li>
+                            <li>Experimentation and learning orientation</li>
+                            <li>Customer involvement</li>
+                            <li>Ambidextrous organization (separate unit for new model)</li>
+                            <li>Willingness to cannibalize existing business</li>
+                        </ul>
+                    </div>
+                    <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
+                        <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
+                        <ul style="margin-top: 0.75rem;">
+                            <li><strong>Article:</strong> Foss & Saebi (2017) - Business model innovation</li>
+                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 332-335)</li>
+                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 33-40)</li>
+                        </ul>
+                    </div>
+                `
+            }
+        ];
+
+        let filteredTopics = [...topics];
+
+        function renderTopics(topicsToRender) {
+            const grid = document.getElementById('contentGrid');
+            grid.innerHTML = '';
+
+            topicsToRender.forEach(topic => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => showModal(topic);
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${topic.title}</div>
+                        </div>
+                        <span class="card-badge badge-${topic.badge}">${topic.badge}</span>
+                    </div>
+                    <div class="card-content">
+                        <p>${topic.summary}</p>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+
+            document.getElementById('totalTopics').textContent = topicsToRender.length;
+        }
+
+        function showModal(topic) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = topic.details;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                if (category === 'all') {
+                    filteredTopics = [...topics];
+                } else {
+                    filteredTopics = topics.filter(t => t.category === category);
+                }
+                
+                renderTopics(filteredTopics);
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const activeCategory = document.querySelector('.tab-btn.active').dataset.category;
+            
+            let baseTopics = activeCategory === 'all' ? topics : topics.filter(t => t.category === activeCategory);
+            
+            const searchResults = baseTopics.filter(topic => 
+                topic.title.toLowerCase().includes(searchTerm) ||
+                topic.summary.toLowerCase().includes(searchTerm) ||
+                topic.details.toLowerCase().includes(searchTerm)
+            );
+            
+            renderTopics(searchResults);
+        });
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        function downloadFile(fileId, filename) {
+            // Map file IDs to GitHub raw URLs
+            const githubRepo = 'https://raw.githubusercontent.com/yourusername/ieb-exam-dashboard/main';
+            const fileMapping = {
+                'file:2': `${githubRepo}/resources/Entrepreneurship-and-innovation.pdf`,
+                'file:3': `${githubRepo}/resources/IEB-1-cro-2026_moodle.pptx`,
+                'file:4': `${githubRepo}/resources/HA-4sem-2026-lecture-2-The-entrepreneur-stud.pdf`,
+                'file:5': `${githubRepo}/resources/Oslo-manual.pdf`,
+                'file:6': `${githubRepo}/resources/Wright-Zahra-Dark-side-of-entrepreneurship-2011-IEB.pdf`,
+                'file:7': `${githubRepo}/resources/IEB-3-cro-2026-moodle.pptx`,
+                'file:8': `${githubRepo}/resources/blank-eckhardt-2023-the-lean-startup-as-an-actionable-theory-of-entrepreneurship.pdf`,
+                'file:9': `${githubRepo}/resources/HA-4sem-2026-lecture-4-Entr-in-practice-Bus-Plans-stud.pdf`,
+                'file:10': `${githubRepo}/resources/haag-2013-writing-a-successful-business-plan-an-overview.pdf`
+            };
+            
+            const url = fileMapping[fileId];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert('File not found. Please check the GitHub repository.');
+            }
+        }
+
+        renderTopics(topics);
+    </script>
+</body>
+</html>
+
