@@ -364,6 +364,94 @@
                 font-size: 1.05rem;
             }
         }
+
+        /* PDF Viewer Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+        }
+        .pdf-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .pdf-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1000px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+        }
+        .pdf-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+            flex-shrink: 0;
+        }
+        .pdf-modal-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+        .pdf-modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .pdf-open-btn {
+            padding: 0.4rem 0.9rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .pdf-open-btn:hover { background: var(--color-primary-hover); }
+        .pdf-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .pdf-modal-close:hover { background: #f1f5f9; }
+        .pdf-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+        .pdf-fallback {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+        .pdf-fallback p { color: var(--color-text-secondary); }
     </style>
 </head>
 <body>
@@ -469,9 +557,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship and innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 1 (pp. 15-18)</li>
-                            <li><strong>Source:</strong> <a href="#" onclick="downloadFile('file:5', 'Oslo manual.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Oslo Manual 2018</a> (pp. 44-68)</li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:3', 'IEB 1 cro 2026_moodle.pptx'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 8-15)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 41); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 1 (pp. 15-18)</li>
+                            <li><strong>Source:</strong> <a href="#" onclick="openSource('file:5', 46); return false;" style="color: #3b82f6; text-decoration: underline;">Oslo Manual 2018</a> (pp. 44-68)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 8); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 8-15)</li>
                         </ul>
                     </div>
                 `
@@ -518,9 +606,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship and innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 308-315)</li>
-                            <li><strong>Article:</strong> Sarasvathy (2001) - Effectuation theory</li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:4', 'HA 4sem 2026 lecture 2 The entrepreneur stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 18-25)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 334); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 308-315)</li>
+                            <li><strong>Article:</strong> <a href="https://www.jstor.org/stable/259518" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Sarasvathy (2001) - Effectuation theory</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 18); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 18-25)</li>
                         </ul>
                     </div>
                 `
@@ -563,9 +651,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship and innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 321-328)</li>
-                            <li><strong>Source:</strong> Osterwalder & Pigneur (2010) - Business Model Generation</li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:7', 'IEB 3 cro 2026 moodle.pptx'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 10-22)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 347); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 321-328)</li>
+                            <li><strong>Source:</strong> <a href="https://www.strategyzer.com/library/business-model-generation" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Osterwalder & Pigneur (2010) - Business Model Generation</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 10); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 10-22)</li>
                         </ul>
                     </div>
                 `
@@ -623,9 +711,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> <a href="#" onclick="downloadFile('file:2', 'Entrepreneurship and innovation.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 315-321)</li>
-                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:8', 'blank-eckhardt-2023-the-lean-startup-as-an-actionable-theory-of-entrepreneurship.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Blank & Eckhardt (2023) - The Lean Startup as actionable theory</a></li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:9', 'HA 4sem 2026 lecture 4 Entr in practice Bus Plans stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 5-18)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 341); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 315-321)</li>
+                            <li><strong>Article:</strong> <a href="#" onclick="openSource('file:8', 1); return false;" style="color: #3b82f6; text-decoration: underline;">Blank & Eckhardt (2023) - The Lean Startup as actionable theory</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:9', 5); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 5-18)</li>
                         </ul>
                     </div>
                 `
@@ -687,9 +775,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 9 (pp. 278-285)</li>
-                            <li><strong>Source:</strong> Christensen - The Innovator's Dilemma (1997)</li>
-                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 20-28)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 304); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 9 (pp. 278-285)</li>
+                            <li><strong>Source:</strong> <a href="https://scholar.google.com/scholar?q=Christensen+Innovators+Dilemma+1997" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Christensen - The Innovator's Dilemma (1997)</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 20); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 20-28)</li>
                         </ul>
                     </div>
                 `
@@ -743,9 +831,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 305-308)</li>
-                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 12-17)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 5-9)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 331); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 305-308)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 12); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 12-17)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 5); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 5-9)</li>
                         </ul>
                     </div>
                 `
@@ -799,9 +887,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:10', 'haag-2013-writing-a-successful-business-plan-an-overview.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Haag (2013) - Writing a Successful Business Plan</a></li>
-                            <li><strong>Article:</strong> Karlsson & Honig (2009) - Business plans as symbolic artifacts</li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:9', 'HA 4sem 2026 lecture 4 Entr in practice Bus Plans stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 20-30)</li>
+                            <li><strong>Article:</strong> <a href="#" onclick="openSource('file:10', 1); return false;" style="color: #3b82f6; text-decoration: underline;">Haag (2013) - Writing a Successful Business Plan</a></li>
+                            <li><strong>Article:</strong> <a href="https://scholar.google.com/scholar?q=Karlsson+Honig+2009+business+plans+symbolic" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Karlsson &amp; Honig (2009) - Business plans as symbolic artifacts</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:9', 20); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 20-30)</li>
                         </ul>
                     </div>
                 `
@@ -875,8 +963,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 293-305)</li>
-                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 5-11)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 319); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 293-305)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 5); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 5-11)</li>
                         </ul>
                     </div>
                 `
@@ -935,9 +1023,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 184-192)</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 7 (pp. 218-225)</li>
-                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 16-19)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 210); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 6 (pp. 184-192)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 244); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 7 (pp. 218-225)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 16); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 16-19)</li>
                         </ul>
                     </div>
                 `
@@ -1001,9 +1089,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> Teece (2008) - Dynamic Capabilities & Business Models</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 328-332)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 25-32)</li>
+                            <li><strong>Article:</strong> <a href="https://scholar.google.com/scholar?q=Teece+2008+dynamic+capabilities+business+models" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Teece (2008) - Dynamic Capabilities &amp; Business Models</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 354); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 328-332)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 25); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 25-32)</li>
                         </ul>
                     </div>
                 `
@@ -1069,8 +1157,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 306-307)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 6-8)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 332); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 306-307)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 6); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 6-8)</li>
                         </ul>
                     </div>
                 `
@@ -1152,9 +1240,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Source:</strong> Porter (1979) - Five Forces Framework</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 168-172)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 4-5)</li>
+                            <li><strong>Source:</strong> <a href="https://scholar.google.com/scholar?q=Porter+1979+five+forces" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Porter (1979) - Five Forces Framework</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 194); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 6 (pp. 168-172)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 4); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 4-5)</li>
                         </ul>
                     </div>
                 `
@@ -1233,8 +1321,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 6 (pp. 172-175)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 3-4)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 198); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 6 (pp. 172-175)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 3); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 3-4)</li>
                         </ul>
                     </div>
                 `
@@ -1392,8 +1480,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> <a href="#" onclick="downloadFile('file:6', 'Wright Zahra Dark side of entrepreneurship 2011 IEB.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Wright & Zahra (2011) - Dark side of entrepreneurship</a></li>
-                            <li><strong>Lecture:</strong> <a href="#" onclick="downloadFile('file:4', 'HA 4sem 2026 lecture 2 The entrepreneur stud.pdf'); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 28-35)</li>
+                            <li><strong>Article:</strong> <a href="#" onclick="openSource('file:6', 1); return false;" style="color: #3b82f6; text-decoration: underline;">Wright & Zahra (2011) - Dark side of entrepreneurship</a></li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 28); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 28-35)</li>
                         </ul>
                     </div>
                 `
@@ -1477,8 +1565,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 338-342)</li>
-                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 26-27)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 364); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 338-342)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 26); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 26-27)</li>
                         </ul>
                     </div>
                 `
@@ -1577,8 +1665,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 335-338)</li>
-                            <li><strong>Lecture:</strong> Lecture 4 - Entrepreneurship in Practice (Slides 31-38)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 361); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 335-338)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:9', 31); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 4 - Entrepreneurship in Practice</a> (Slides 31-38)</li>
                         </ul>
                     </div>
                 `
@@ -1648,9 +1736,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 5 (pp. 145-152)</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 255-260)</li>
-                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 29-33)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 171); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 5 (pp. 145-152)</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 281); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 8 (pp. 255-260)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 29); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 29-33)</li>
                         </ul>
                     </div>
                 `
@@ -1724,9 +1812,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> Cohen & Levinthal (1990) - Absorptive capacity</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 245-250)</li>
-                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 34-38)</li>
+                            <li><strong>Article:</strong> <a href="https://scholar.google.com/scholar?q=Cohen+Levinthal+1990+absorptive+capacity" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Cohen &amp; Levinthal (1990) - Absorptive capacity</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 271); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 8 (pp. 245-250)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 34); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 34-38)</li>
                         </ul>
                     </div>
                 `
@@ -1821,9 +1909,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Source:</strong> Chesbrough (2003) - Open Innovation paradigm</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 8 (pp. 232-245)</li>
-                            <li><strong>Lecture:</strong> Lecture 1 - Introduction to Innovation (Slides 39-45)</li>
+                            <li><strong>Source:</strong> <a href="https://scholar.google.com/scholar?q=Chesbrough+2003+open+innovation" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Chesbrough (2003) - Open Innovation paradigm</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 258); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 8 (pp. 232-245)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:3', 39); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 1 - Introduction to Innovation</a> (Slides 39-45)</li>
                         </ul>
                     </div>
                 `
@@ -1902,9 +1990,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Source:</strong> Rogers (1962/2003) - Diffusion of Innovations</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 12 (pp. 382-395)</li>
-                            <li><strong>Book:</strong> Moore - Crossing the Chasm (1991)</li>
+                            <li><strong>Source:</strong> <a href="https://scholar.google.com/scholar?q=Rogers+Diffusion+of+Innovations" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Rogers (1962/2003) - Diffusion of Innovations</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 408); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 12 (pp. 382-395)</li>
+                            <li><strong>Book:</strong> <a href="https://scholar.google.com/scholar?q=Moore+Crossing+the+Chasm+1991" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Moore - Crossing the Chasm (1991)</a></li>
                         </ul>
                     </div>
                 `
@@ -2013,8 +2101,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Source:</strong> Cooper (1990) - Stage-Gate NPD process</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 11 (pp. 346-365)</li>
+                            <li><strong>Source:</strong> <a href="https://scholar.google.com/scholar?q=Cooper+1990+stage+gate+NPD" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Cooper (1990) - Stage-Gate NPD process</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 372); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 11 (pp. 346-365)</li>
                         </ul>
                     </div>
                 `
@@ -2104,8 +2192,8 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 11 (pp. 365-372)</li>
-                            <li><strong>Tool:</strong> Kano Model for feature prioritization</li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 391); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 11 (pp. 365-372)</li>
+                            <li><strong>Tool:</strong> <a href="https://scholar.google.com/scholar?q=Kano+model+feature+prioritization" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Kano Model for feature prioritization</a></li>
                         </ul>
                     </div>
                 `
@@ -2192,9 +2280,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> Welter et al. (2017) - Everyday entrepreneurship</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 342-348)</li>
-                            <li><strong>Lecture:</strong> Lecture 2 - The Entrepreneur (Slides 36-42)</li>
+                            <li><strong>Article:</strong> <a href="https://scholar.google.com/scholar?q=Welter+2017+everyday+entrepreneurship" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Welter et al. (2017) - Everyday entrepreneurship</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 368); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 342-348)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:4', 36); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 2 - The Entrepreneur</a> (Slides 36-42)</li>
                         </ul>
                     </div>
                 `
@@ -2280,9 +2368,9 @@
                     <div class="key-point" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6; margin-top: 2rem;">
                         <strong style="color: #1e40af; font-size: 1.1rem;">📚 Learn More</strong>
                         <ul style="margin-top: 0.75rem;">
-                            <li><strong>Article:</strong> Foss & Saebi (2017) - Business model innovation</li>
-                            <li><strong>Textbook:</strong> Trott - Innovation & Entrepreneurship, Chapter 10 (pp. 332-335)</li>
-                            <li><strong>Lecture:</strong> Lecture 3 - Business Models (Slides 33-40)</li>
+                            <li><strong>Article:</strong> <a href="https://scholar.google.com/scholar?q=Foss+Saebi+2017+business+model+innovation" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline;">Foss &amp; Saebi (2017) - Business model innovation</a></li>
+                            <li><strong>Textbook:</strong> <a href="#" onclick="openSource('file:2', 358); return false;" style="color: #3b82f6; text-decoration: underline;">Trott - Innovation & Entrepreneurship</a>, Chapter 10 (pp. 332-335)</li>
+                            <li><strong>Lecture:</strong> <a href="#" onclick="openSource('file:7', 33); return false;" style="color: #3b82f6; text-decoration: underline;">Lecture 3 - Business Models</a> (Slides 33-40)</li>
                         </ul>
                     </div>
                 `
@@ -2370,31 +2458,80 @@
             }
         });
 
-        function downloadFile(fileId, filename) {
-            // Map file IDs to GitHub raw URLs
+        function openSource(fileId, page) {
             const githubRepo = 'https://raw.githubusercontent.com/ilumik/ieb-exam-dashboard/main';
-            const fileMapping = {
-                'file:2': `${githubRepo}/resources/Entrepreneurship and innovation.pdf`,
-                'file:3': `${githubRepo}/resources/IEB 1 cro 2026_moodle.pptx`,
-                'file:4': `${githubRepo}/resources/HA 4sem 2026 lecture 2 The entrepreneur stud.pdf`,
-                'file:5': `${githubRepo}/resources/Oslo manual.pdf`,
-                'file:6': `${githubRepo}/resources/Wright Zahra Dark side of entrepreneurship 2011 IEB.pdf`,
-                'file:7': `${githubRepo}/resources/IEB 3 cro 2026 moodle.pptx`,
-                'file:8': `${githubRepo}/resources/blank-eckhardt-2023-the-lean-startup-as-an-actionable-theory-of-entrepreneurship.pdf`,
-                'file:9': `${githubRepo}/resources/HA 4sem 2026 lecture 4 Entr in practice Bus Plans stud.pdf`,
-                'file:10': `${githubRepo}/resources/haag-2013-writing-a-successful-business-plan-an-overview.pdf`
+            const fileMeta = {
+                'file:2': { name: 'Trott – Entrepreneurship and Innovation', file: 'Entrepreneurship and innovation.pdf' },
+                'file:3': { name: 'Lecture 1 – Introduction to Innovation', file: 'IEB 1 cro 2026_moodle.pdf' },
+                'file:4': { name: 'Lecture 2 – The Entrepreneur', file: 'HA 4sem 2026 lecture 2 The entrepreneur stud.pdf' },
+                'file:5': { name: 'Oslo Manual 2018', file: 'Oslo manual.pdf' },
+                'file:6': { name: 'Wright & Zahra (2011) – Dark Side of Entrepreneurship', file: 'Wright Zahra Dark side of entrepreneurship 2011 IEB.pdf' },
+                'file:7': { name: 'Lecture 3 – Business Models', file: 'IEB 3 cro 2026 moodle.pdf' },
+                'file:8': { name: 'Blank & Eckhardt (2023) – The Lean Startup as Actionable Theory', file: 'blank-eckhardt-2023-the-lean-startup-as-an-actionable-theory-of-entrepreneurship.pdf' },
+                'file:9': { name: 'Lecture 4 – Entrepreneurship in Practice', file: 'HA 4sem 2026 lecture 4 Entr in practice Bus Plans stud.pdf' },
+                'file:10': { name: 'Haag (2013) – Writing a Successful Business Plan', file: 'haag-2013-writing-a-successful-business-plan-an-overview.pdf' }
             };
-            
-            const url = fileMapping[fileId];
-            if (url) {
-                window.open(url, '_blank');
-            } else {
-                alert('File not found. Please check the GitHub repository.');
-            }
+
+            const meta = fileMeta[fileId];
+            if (!meta) { alert('File not found.'); return; }
+
+            const rawUrl = `${githubRepo}/resources/${encodeURIComponent(meta.file)}`;
+            const pdfJsBase = 'https://mozilla.github.io/pdf.js/web/viewer.html';
+            const pageHash = page ? `#page=${page}` : '';
+            const viewerUrl = `${pdfJsBase}?file=${encodeURIComponent(rawUrl)}${pageHash}`;
+
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            const fallback = document.getElementById('pdfFallback');
+            const openNewTab = document.getElementById('pdfOpenNewTab');
+            const title = document.getElementById('pdfModalTitle');
+
+            title.textContent = meta.name + (page ? ` — p. ${page}` : '');
+            openNewTab.href = viewerUrl;
+
+            iframe.src = viewerUrl;
+            iframe.classList.remove('hidden');
+            fallback.classList.add('hidden');
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
+        function closePdfModal() {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            modal.classList.remove('active');
+            iframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+
+        document.getElementById('pdfModal').addEventListener('click', (e) => {
+            if (e.target.id === 'pdfModal') closePdfModal();
+        });
         renderTopics(topics);
     </script>
+
+    <!-- PDF/File Viewer Modal -->
+    <div class="pdf-modal" id="pdfModal">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <span class="pdf-modal-title" id="pdfModalTitle">Source</span>
+                <div class="pdf-modal-actions">
+                    <a id="pdfOpenNewTab" href="#" target="_blank" rel="noopener noreferrer" class="pdf-open-btn">
+                        ↗ Open in new tab
+                    </a>
+                    <button class="pdf-modal-close" onclick="closePdfModal()">×</button>
+                </div>
+            </div>
+            <iframe class="pdf-iframe" id="pdfIframe" src="" title="Source viewer"></iframe>
+            <div class="pdf-fallback hidden" id="pdfFallback">
+                <p>This file type cannot be previewed in the browser.</p>
+                <a id="pdfFallbackLink" href="#" target="_blank" rel="noopener noreferrer" class="pdf-open-btn">↗ Open / Download file</a>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
 
