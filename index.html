@@ -453,6 +453,108 @@
             font-size: 0.875rem;
         }
         .pdf-fallback p { color: var(--color-text-secondary); margin: 0; }
+
+        /* ── Glossary ── */
+        .glossary-section { display: none; }
+        .glossary-section.active { display: block; }
+
+        .glossary-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .glossary-tab-btn {
+            padding: 0.6rem 1.25rem;
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .glossary-tab-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-1px);
+        }
+        .glossary-tab-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+        }
+
+        .glossary-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+        .glossary-grid.active { display: grid; }
+
+        .glossary-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+        }
+        .glossary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+        .glossary-term {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+        .glossary-definition {
+            font-size: 0.92rem;
+            color: var(--color-text-secondary);
+            line-height: 1.65;
+            margin-bottom: 0.85rem;
+        }
+        .glossary-usecase {
+            font-size: 0.88rem;
+            color: var(--color-text-secondary);
+            background: #f8fafc;
+            border-left: 3px solid var(--color-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 0.6rem 0.9rem;
+            line-height: 1.6;
+        }
+        .glossary-usecase::before {
+            content: '💡 ';
+            font-style: normal;
+        }
+
+        .glossary-search {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .glossary-search:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px var(--color-primary-light);
+        }
+        .glossary-count {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -494,15 +596,387 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" data-category="all">All Topics</button>
-            <button class="tab-btn" data-category="innovation">Innovation</button>
-            <button class="tab-btn" data-category="entrepreneurship">Entrepreneurship</button>
-            <button class="tab-btn" data-category="business-models">Business Models</button>
-            <button class="tab-btn" data-category="frameworks">Frameworks &amp; Tools</button>
-            <button class="tab-btn" data-category="critical">Critical Theories</button>
+            <button class="tab-btn active" data-category="all" data-view="topics">All Topics</button>
+            <button class="tab-btn" data-category="innovation" data-view="topics">Innovation</button>
+            <button class="tab-btn" data-category="entrepreneurship" data-view="topics">Entrepreneurship</button>
+            <button class="tab-btn" data-category="business-models" data-view="topics">Business Models</button>
+            <button class="tab-btn" data-category="frameworks" data-view="topics">Frameworks &amp; Tools</button>
+            <button class="tab-btn" data-category="critical" data-view="topics">Critical Theories</button>
+            <button class="tab-btn" data-category="glossary" data-view="glossary" style="margin-left:auto; background: linear-gradient(135deg,#eff6ff,#dbeafe); border-color:#93c5fd; color:#1e40af;">📖 Glossary</button>
         </div>
 
         <div class="content-grid" id="contentGrid"></div>
+
+    <!-- ── GLOSSARY SECTION ── -->
+    <div class="glossary-section" id="glossarySection">
+        <input type="text" class="glossary-search" id="glossarySearch" placeholder="Search 69 glossary terms...">
+        <div class="glossary-count" id="glossaryCount">Showing all 69 terms</div>
+        <div class="glossary-tabs">
+                <button class="glossary-tab-btn active" data-glossary-cat="g-innovation">Innovation</button>
+                <button class="glossary-tab-btn" data-glossary-cat="g-entrepreneurship">Entrepreneurship</button>
+                <button class="glossary-tab-btn" data-glossary-cat="g-business-models">Business Models</button>
+                <button class="glossary-tab-btn" data-glossary-cat="g-frameworks">Frameworks &amp; Tools</button>
+                <button class="glossary-tab-btn" data-glossary-cat="g-critical">Critical Theories</button>
+            </div>
+
+                    <div class="glossary-grid active" id="g-innovation">
+                <div class="glossary-card">
+                    <div class="glossary-term">Absorptive Capacity</div>
+                    <div class="glossary-definition">A firm's ability to recognize, assimilate, and commercially apply new external knowledge.</div>
+                    <div class="glossary-usecase">A startup that regularly reads industry research and sends engineers to conferences builds absorptive capacity, making it faster to adopt new technologies than competitors who rely solely on internal R&D.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Disruptive Innovation</div>
+                    <div class="glossary-definition">An innovation that initially targets overlooked segments with a simpler, cheaper solution before eventually displacing established players.</div>
+                    <div class="glossary-usecase">Netflix started as a cheap mail-order DVD service ignored by Blockbuster, then disrupted the entire video rental market through streaming.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Incremental Innovation</div>
+                    <div class="glossary-definition">Small, continuous improvements to an existing product, process, or service.</div>
+                    <div class="glossary-usecase">Apple releasing a new iPhone with a better camera and faster chip each year is incremental innovation on an existing platform.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Radical Innovation</div>
+                    <div class="glossary-definition">A breakthrough that fundamentally changes an industry or creates an entirely new market.</div>
+                    <div class="glossary-usecase">The invention of the smartphone was a radical innovation that made entire product categories (GPS devices, MP3 players, cameras) obsolete.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Open Innovation</div>
+                    <div class="glossary-definition">A model where firms use both internal and external ideas and paths to market, including licensing, partnerships, and spin-offs.</div>
+                    <div class="glossary-usecase">Procter &amp; Gamble's 'Connect &amp; Develop' programme sources over 50% of new product innovations from outside the company.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Closed Innovation</div>
+                    <div class="glossary-definition">The traditional model where all R&amp;D, development, and commercialisation happens internally within one firm.</div>
+                    <div class="glossary-usecase">Pre-2000s Bell Labs developed all its own inventions and kept them strictly proprietary.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Sustaining Innovation</div>
+                    <div class="glossary-definition">An improvement that helps established firms serve their existing customers better along established performance dimensions.</div>
+                    <div class="glossary-usecase">Toyota continuously improving fuel efficiency in its existing Corolla model line.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Product Innovation</div>
+                    <div class="glossary-definition">Introduction of a new or significantly improved good or service.</div>
+                    <div class="glossary-usecase">The first touchscreen smartphone was a product innovation that introduced a new interaction paradigm.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Process Innovation</div>
+                    <div class="glossary-definition">Implementation of a new or significantly improved production or delivery method.</div>
+                    <div class="glossary-usecase">Toyota's lean manufacturing system was a process innovation that drastically reduced waste and production time.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Marketing Innovation</div>
+                    <div class="glossary-definition">A new marketing method involving significant changes in design, packaging, pricing, or promotion.</div>
+                    <div class="glossary-usecase">Coca-Cola's personalised 'Share a Coke' campaign with individual names on bottles was a marketing innovation.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Organisational Innovation</div>
+                    <div class="glossary-definition">A new organisational method in business practices, workplace organisation, or external relations.</div>
+                    <div class="glossary-usecase">Google's '20% time' policy, allowing engineers to work on personal projects, was an organisational innovation.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">S-Curve</div>
+                    <div class="glossary-definition">A model showing how a technology's performance improves slowly at first, then rapidly, then plateaus as it matures.</div>
+                    <div class="glossary-usecase">Early transistors improved slowly, then exponentially (Moore's Law), before the curve flattened as physical limits were reached.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Diffusion</div>
+                    <div class="glossary-definition">The process by which an innovation spreads through a social system over time via communication channels.</div>
+                    <div class="glossary-usecase">Social media platforms spread from early tech-savvy adopters to mainstream users over roughly a decade.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">NIH Syndrome</div>
+                    <div class="glossary-definition">Not-Invented-Here: the tendency of a firm to reject external ideas, preferring internally developed solutions.</div>
+                    <div class="glossary-usecase">Kodak rejected external digital imaging concepts despite having the internal capability, contributing to its eventual bankruptcy.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Technology Push</div>
+                    <div class="glossary-definition">Innovation driven by new technological discoveries, which are then pushed towards the market.</div>
+                    <div class="glossary-usecase">GORE-TEX fabric was developed from a lab experiment and then commercialised by finding markets that could use it.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Market Pull</div>
+                    <div class="glossary-definition">Innovation driven by identified customer needs or market demand.</div>
+                    <div class="glossary-usecase">Dyson developed the bagless vacuum cleaner in direct response to consumers' frustration with loss of suction in bagged models.</div>
+                </div>
+            </div>
+            <div class="glossary-grid" id="g-entrepreneurship">
+                <div class="glossary-card">
+                    <div class="glossary-term">Entrepreneur</div>
+                    <div class="glossary-definition">A person who identifies opportunities, marshals resources, and bears risk to create a new venture or bring innovation to market.</div>
+                    <div class="glossary-usecase">Elon Musk identified opportunities in electric vehicles and space travel, founded Tesla and SpaceX, and bore significant personal financial risk.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Effectuation</div>
+                    <div class="glossary-definition">An entrepreneurial decision-making logic that starts with available means rather than predetermined goals.</div>
+                    <div class="glossary-usecase">A chef starts a restaurant not with a fixed business plan, but by cooking for friends, gathering feedback, and letting the concept evolve based on what works.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Causation</div>
+                    <div class="glossary-definition">A decision-making logic that starts with a predetermined goal and selects the optimal means to achieve it.</div>
+                    <div class="glossary-usecase">A student writes a detailed business plan before launching, analysing the market and selecting the best strategy to reach a target revenue goal.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Affordable Loss</div>
+                    <div class="glossary-definition">An effectuation principle: commit only what you can afford to lose rather than calculating expected returns.</div>
+                    <div class="glossary-usecase">A founder quits her job only after securing her first paying customer, risking only 3 months of savings rather than her entire net worth.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Pivot</div>
+                    <div class="glossary-definition">A structured course correction to test a fundamentally new hypothesis about the product, business model, or growth strategy.</div>
+                    <div class="glossary-usecase">Instagram pivoted from a location check-in app (Burbn) to a photo-sharing app after noticing users only engaged with the photo feature.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Bootstrapping</div>
+                    <div class="glossary-definition">Building and growing a business using only personal savings, sweat equity, and revenue — without external investment.</div>
+                    <div class="glossary-usecase">Basecamp grew to a multi-million dollar company entirely on customer revenue without ever taking venture capital.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Minimum Viable Product (MVP)</div>
+                    <div class="glossary-definition">The simplest version of a product that allows a team to collect the maximum validated learning from customers with the least effort.</div>
+                    <div class="glossary-usecase">Dropbox's MVP was a simple 3-minute demo video — it generated 75,000 sign-ups overnight before a single line of code was written.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Validated Learning</div>
+                    <div class="glossary-definition">The process of demonstrating empirically that a team has discovered valuable truths about a business's prospects.</div>
+                    <div class="glossary-usecase">A team that runs an A/B test on two pricing models and uses the results to decide which to pursue is practising validated learning.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Opportunity Recognition</div>
+                    <div class="glossary-definition">The cognitive process by which an entrepreneur perceives a profitable new venture idea by connecting information to an unmet market need.</div>
+                    <div class="glossary-usecase">Howard Schultz noticed Italian espresso bar culture during a trip to Milan and recognised the opportunity to recreate it in the US — founding Starbucks.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Sweat Equity</div>
+                    <div class="glossary-definition">The contribution of effort, time, and skill in lieu of financial investment, typically used in early-stage ventures.</div>
+                    <div class="glossary-usecase">Two co-founders who work 60-hour weeks for six months without salary in exchange for equal shares of the company are contributing sweat equity.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Angel Investor</div>
+                    <div class="glossary-definition">A high-net-worth individual who provides early-stage capital to startups, often in exchange for equity or convertible debt.</div>
+                    <div class="glossary-usecase">Peter Thiel's $500,000 investment in Facebook in 2004 for 10.2% equity is one of the most famous angel investments in history.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Venture Capital (VC)</div>
+                    <div class="glossary-definition">Professional investors who manage pooled funds and invest in high-growth startups in exchange for equity, targeting 10x+ returns.</div>
+                    <div class="glossary-usecase">Sequoia Capital invested in Google at Series A, receiving a stake that eventually returned thousands of times the original investment.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Crowdfunding</div>
+                    <div class="glossary-definition">Raising small amounts of money from a large number of people via online platforms in exchange for rewards, equity, or debt.</div>
+                    <div class="glossary-usecase">The Pebble smartwatch raised $10 million on Kickstarter by pre-selling watches, validating demand before manufacturing.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Social Entrepreneurship</div>
+                    <div class="glossary-definition">Entrepreneurial activity where the primary mission is creating social or environmental value, with financial sustainability as a means rather than an end.</div>
+                    <div class="glossary-usecase">Muhammad Yunus founded Grameen Bank to provide microloans to impoverished Bangladeshis, prioritising poverty alleviation over profit.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Intrapreneurship</div>
+                    <div class="glossary-definition">Entrepreneurial behaviour and innovation occurring within an established organisation, often by employees acting with startup-like autonomy.</div>
+                    <div class="glossary-usecase">The Gmail team operated as an internal startup within Google, using the 20% time policy to build and launch the product.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Everyday Entrepreneurship</div>
+                    <div class="glossary-definition">The broad range of entrepreneurial activity beyond high-growth tech startups, including small businesses, self-employment, and lifestyle ventures.</div>
+                    <div class="glossary-usecase">A local baker opening her own patisserie, a freelance designer, and a family-run hardware store are all everyday entrepreneurship.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Dark Side of Entrepreneurship</div>
+                    <div class="glossary-definition">The negative consequences of entrepreneurial activity, including burnout, unethical practices, and societal harm.</div>
+                    <div class="glossary-usecase">Theranos's Elizabeth Holmes used entrepreneurial rhetoric to raise $900M for a product that never worked, committing large-scale fraud.</div>
+                </div>
+            </div>
+            <div class="glossary-grid" id="g-business-models">
+                <div class="glossary-card">
+                    <div class="glossary-term">Business Model</div>
+                    <div class="glossary-definition">A description of how an organisation creates, delivers, and captures value.</div>
+                    <div class="glossary-usecase">Spotify creates value via music streaming, delivers it through an app, and captures value through freemium subscriptions and premium upgrades.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Business Model Canvas (BMC)</div>
+                    <div class="glossary-definition">A strategic management template with 9 building blocks for describing, designing, and analysing business models.</div>
+                    <div class="glossary-usecase">A startup team uses a BMC on a whiteboard to map customer segments, value proposition, and revenue streams before writing a line of code.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Value Proposition</div>
+                    <div class="glossary-definition">The bundle of products and services that create value for a specific customer segment by solving a problem or satisfying a need.</div>
+                    <div class="glossary-usecase">Uber's value proposition to riders is on-demand transport with transparent pricing and no cash — solving the unreliability of traditional taxis.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Revenue Model</div>
+                    <div class="glossary-definition">The strategy by which a business monetises its value proposition.</div>
+                    <div class="glossary-usecase">LinkedIn uses a freemium revenue model: basic access is free, while premium subscriptions and recruiter tools generate revenue.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Freemium</div>
+                    <div class="glossary-definition">A revenue model where a basic product is free, and a premium version with additional features is offered at a price.</div>
+                    <div class="glossary-usecase">Spotify offers free ad-supported streaming and charges a monthly fee for ad-free listening, offline downloads, and better audio quality.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Platform Business Model</div>
+                    <div class="glossary-definition">A model that creates value by facilitating interactions between two or more distinct user groups.</div>
+                    <div class="glossary-usecase">Airbnb connects hosts with guests, creating value without owning any property itself.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Subscription Model</div>
+                    <div class="glossary-definition">A revenue model where customers pay a recurring fee for continued access to a product or service.</div>
+                    <div class="glossary-usecase">Netflix charges a monthly fee for unlimited streaming, creating predictable revenue and high switching costs.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Value Chain</div>
+                    <div class="glossary-definition">The series of activities a firm performs to deliver a product or service, each step adding value from raw materials to the end customer.</div>
+                    <div class="glossary-usecase">IKEA's value chain includes design, flat-pack manufacturing, self-service retail, and home assembly — each step designed to reduce cost.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Dynamic Capabilities</div>
+                    <div class="glossary-definition">A firm's ability to sense opportunities, seize them, and reconfigure resources to maintain competitive advantage in changing environments.</div>
+                    <div class="glossary-usecase">Apple sensed the shift to mobile computing, seized it with the iPhone, and reconfigured its entire supply chain and software ecosystem around it.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Business Model Innovation</div>
+                    <div class="glossary-definition">Deliberately changing one or more elements of a firm's business model to create and capture value in a new way.</div>
+                    <div class="glossary-usecase">Rolls-Royce shifted from selling jet engines to 'Power by the Hour' — charging airlines per hour of thrust — transforming its revenue model entirely.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Cost Structure</div>
+                    <div class="glossary-definition">All costs incurred to operate a business model, including fixed and variable costs.</div>
+                    <div class="glossary-usecase">An airline has high fixed costs (aircraft, staff) but uses dynamic pricing to maximise revenue per flight and cover variable fuel costs.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Key Resources</div>
+                    <div class="glossary-definition">The most important assets required to make a business model work, including physical, intellectual, human, and financial resources.</div>
+                    <div class="glossary-usecase">For a pharmaceutical company, patents and clinical research data are key resources that protect its competitive position.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Customer Segments</div>
+                    <div class="glossary-definition">The different groups of people or organisations a business aims to reach and serve.</div>
+                    <div class="glossary-usecase">A bank segments customers into retail (individuals), SME (small businesses), and corporate (large companies), each with different needs.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Channels</div>
+                    <div class="glossary-definition">How a company communicates with and reaches its customer segments to deliver its value proposition.</div>
+                    <div class="glossary-usecase">Tesla sells directly to consumers via its website and showrooms, bypassing traditional dealerships to control the customer experience.</div>
+                </div>
+            </div>
+            <div class="glossary-grid" id="g-frameworks">
+                <div class="glossary-card">
+                    <div class="glossary-term">SWOT Analysis</div>
+                    <div class="glossary-definition">A framework identifying internal Strengths and Weaknesses, and external Opportunities and Threats.</div>
+                    <div class="glossary-usecase">A new coffee shop: Strength = prime location; Weakness = no brand recognition; Opportunity = growing specialty coffee trend; Threat = Starbucks nearby.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">PESTEL Analysis</div>
+                    <div class="glossary-definition">A macro-environmental scanning framework covering Political, Economic, Social, Technological, Environmental, and Legal factors.</div>
+                    <div class="glossary-usecase">A UK retailer planning to expand into Brazil uses PESTEL to assess political instability, currency risk, cultural differences, and import regulations.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Porter's Five Forces</div>
+                    <div class="glossary-definition">A framework for analysing the competitive intensity and profitability of an industry across five forces.</div>
+                    <div class="glossary-usecase">A new entrant in soft drinks faces high rivalry (Coca-Cola, Pepsi), strong buyer power (supermarkets), and many substitute drinks.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">3M Framework</div>
+                    <div class="glossary-definition">An opportunity screening tool evaluating a new venture across Market, Money, and Management dimensions.</div>
+                    <div class="glossary-usecase">An investor uses 3M to assess a pitch: Is the market large enough? Can the unit economics work? Does the team have the skills to execute?</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">TAM / SAM / SOM</div>
+                    <div class="glossary-definition">Market sizing framework: Total Addressable Market, Serviceable Available Market, and Serviceable Obtainable Market.</div>
+                    <div class="glossary-usecase">A fitness app targets TAM = all smartphone users globally; SAM = fitness-conscious users in Europe; SOM = 1% of European fitness app users in year one.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Stage-Gate Process</div>
+                    <div class="glossary-definition">A product development framework dividing innovation into stages separated by go/kill decision gates.</div>
+                    <div class="glossary-usecase">A consumer goods company funnels 200 ideas down to 5 product launches by killing weak projects at each gate.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Voice of Customer (VOC)</div>
+                    <div class="glossary-definition">A research process for capturing customers' expectations, preferences, and aversions, including unspoken needs.</div>
+                    <div class="glossary-usecase">A medical device company conducts ethnographic research in hospitals to understand nurses' unspoken frustrations before designing a new product.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Kano Model</div>
+                    <div class="glossary-definition">A framework categorising product features into Must-be, One-dimensional, and Attractive (delight) factors.</div>
+                    <div class="glossary-usecase">A hotel classifies clean rooms as Must-be, fast Wi-Fi as One-dimensional (more = better), and a welcome gift as Attractive (delight if present).</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">House of Quality (QFD)</div>
+                    <div class="glossary-definition">A matrix-based tool linking customer needs to technical design specifications to prioritise product features.</div>
+                    <div class="glossary-usecase">An automotive team uses QFD to translate 'I want a quiet ride' into specific engineering targets for door seal thickness and engine insulation.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Lean Canvas</div>
+                    <div class="glossary-definition">A one-page business plan adapted from the BMC for early-stage startups, focusing on problems, solutions, and key metrics.</div>
+                    <div class="glossary-usecase">A solo founder fills out a Lean Canvas on day one to articulate the problem they're solving, who has it, and how they'll measure early traction.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Opportunity Screening</div>
+                    <div class="glossary-definition">The process of evaluating potential business opportunities against a set of criteria to decide whether to pursue them.</div>
+                    <div class="glossary-usecase">A VC firm screens 1,000 pitches per year using criteria like market size, team quality, and differentiation, investing in only 10.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Break-Even Analysis</div>
+                    <div class="glossary-definition">A calculation of the point at which total revenue equals total costs — the minimum sales needed to avoid a loss.</div>
+                    <div class="glossary-usecase">A food truck owner calculates she needs to sell 80 wraps per day at €8 each to cover her daily fixed and variable costs.</div>
+                </div>
+            </div>
+            <div class="glossary-grid" id="g-critical">
+                <div class="glossary-card">
+                    <div class="glossary-term">Legitimacy Theory</div>
+                    <div class="glossary-definition">The idea that organisations must conform to social norms and expectations to gain acceptance and resources.</div>
+                    <div class="glossary-usecase">A startup creates a polished pitch deck not because it drives operations, but to signal credibility to investors and partners.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Institutional Theory</div>
+                    <div class="glossary-definition">The view that organisations are shaped by the rules, norms, and taken-for-granted assumptions of their environment.</div>
+                    <div class="glossary-usecase">All new law firms adopt partnership structures not because it is always optimal, but because it is the established norm in the legal industry.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Symbolic Action</div>
+                    <div class="glossary-definition">Actions taken primarily to signal legitimacy or satisfy external expectations rather than to achieve operational goals.</div>
+                    <div class="glossary-usecase">A company publishes a detailed CSR report annually not to change its behaviour, but to signal responsibility to regulators and the public.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Mimetic Isomorphism</div>
+                    <div class="glossary-definition">Organisations copying the structures or strategies of successful peers under conditions of uncertainty.</div>
+                    <div class="glossary-usecase">During the dot-com boom, thousands of traditional retailers launched e-commerce sites primarily because competitors were doing so.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Sensemaking</div>
+                    <div class="glossary-definition">The process by which individuals and organisations interpret ambiguous situations to act upon them.</div>
+                    <div class="glossary-usecase">When COVID-19 hit, restaurant owners had to make sense of a novel environment — some interpreted it as a crisis, others as an opportunity to pivot to delivery.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Bricolage</div>
+                    <div class="glossary-definition">Creating new solutions by combining and re-purposing resources at hand rather than acquiring new ones.</div>
+                    <div class="glossary-usecase">A resource-constrained startup uses free open-source software, a founder's apartment as an office, and barter arrangements with suppliers.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Cognitive Bias in Entrepreneurship</div>
+                    <div class="glossary-definition">Systematic patterns of deviation from rationality that affect entrepreneurial decision-making.</div>
+                    <div class="glossary-usecase">Overconfidence bias leads most entrepreneurs to believe their startup will succeed despite base-rate failure rates above 90%.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Planned Behaviour (Ajzen)</div>
+                    <div class="glossary-definition">A theory that intentions — influenced by attitudes, subjective norms, and perceived control — predict actual behaviour.</div>
+                    <div class="glossary-usecase">A student who believes entrepreneurship is socially respected and feels capable of starting a business is more likely to actually start one.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Schumpeterian Entrepreneurship</div>
+                    <div class="glossary-definition">Entrepreneurship as creative destruction — the entrepreneur as an agent who disrupts existing equilibria through innovation.</div>
+                    <div class="glossary-usecase">Uber's entry into the taxi market destroyed the medallion-taxi equilibrium through a superior technology-enabled business model.</div>
+                </div>
+                <div class="glossary-card">
+                    <div class="glossary-term">Opportunity vs. Necessity Entrepreneurship</div>
+                    <div class="glossary-definition">Distinguishing between entrepreneurs pulled by opportunity (pull) versus those pushed by lack of employment alternatives (push).</div>
+                    <div class="glossary-usecase">A redundant factory worker who starts a cleaning business out of necessity differs in motivation and growth ambition from a tech entrepreneur who spots a market gap.</div>
+                </div>
+            </div>
+
+    </div>
+
     </div>
 
     <div class="modal" id="modal">
@@ -2426,17 +2900,72 @@
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
-                const category = btn.dataset.category;
-                if (category === 'all') {
-                    filteredTopics = [...topics];
+
+                const view = btn.dataset.view;
+                const glossarySection = document.getElementById('glossarySection');
+                const contentGrid = document.getElementById('contentGrid');
+                const searchBar = document.querySelector('.search-bar');
+
+                if (view === 'glossary') {
+                    contentGrid.classList.add('hidden');
+                    searchBar.classList.add('hidden');
+                    glossarySection.classList.add('active');
+                    updateGlossaryCount();
                 } else {
-                    filteredTopics = topics.filter(t => t.category === category);
+                    glossarySection.classList.remove('active');
+                    contentGrid.classList.remove('hidden');
+                    searchBar.classList.remove('hidden');
+
+                    const category = btn.dataset.category;
+                    filteredTopics = category === 'all' ? [...topics] : topics.filter(t => t.category === category);
+                    renderTopics(filteredTopics);
                 }
-                
-                renderTopics(filteredTopics);
             });
         });
+
+        // Glossary category tabs
+        document.querySelectorAll('.glossary-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.glossary-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.glossary-grid').forEach(g => g.classList.remove('active'));
+                document.getElementById(btn.dataset.glossaryCat).classList.add('active');
+                updateGlossaryCount();
+            });
+        });
+
+        // Glossary search
+        document.getElementById('glossarySearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            const allCards = document.querySelectorAll('.glossary-card');
+
+            if (term === '') {
+                allCards.forEach(card => { card.style.display = ''; });
+                document.querySelectorAll('.glossary-grid').forEach(g => g.classList.remove('active'));
+                const activeTab = document.querySelector('.glossary-tab-btn.active');
+                if (activeTab) document.getElementById(activeTab.dataset.glossaryCat).classList.add('active');
+                updateGlossaryCount();
+                return;
+            }
+
+            document.querySelectorAll('.glossary-grid').forEach(g => g.classList.add('active'));
+            let visible = 0;
+            allCards.forEach(card => {
+                const match = card.textContent.toLowerCase().includes(term);
+                card.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            document.getElementById('glossaryCount').textContent =
+                `Showing ${visible} term${visible !== 1 ? 's' : ''} matching "${e.target.value}"`;
+        });
+
+        function updateGlossaryCount() {
+            const activeGrid = document.querySelector('.glossary-grid.active');
+            const count = activeGrid ? activeGrid.querySelectorAll('.glossary-card').length : 0;
+            const activeTabLabel = document.querySelector('.glossary-tab-btn.active')?.textContent || '';
+            document.getElementById('glossaryCount').textContent =
+                `Showing ${count} terms in ${activeTabLabel}`;
+        }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
